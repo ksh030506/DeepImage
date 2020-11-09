@@ -6,21 +6,32 @@ var dbconfig = require('../config/dbconfig');
 var connection = mysql.createConnection(dbconfig);
 connection.query('USE ' + dbconfig.database);
 
-var bodyParser = require('body-parser');
 
-router.get('/test', function(req, res) {
-    connection.query('SELECT * from Aca', function(err, rows, fields){
+//로그인 API
+router.post('/login', function(req, res){
+    var data = req.body;
+    var param = [data.email, data.password];
+
+    console.log(param);
+    res.redirect('/')
+});
+
+//회원가입 API
+router.post('/sing', function(req, res){
+    var data = req.body;
+    var param = [data.name, data.email, data.password];
+
+    connection.query('insert into User values(?, ?, ?)', param, function(err, rows, fields){
         if(!err){
-            console.log(rows, fields);
-            res.json({
-                "rows": rows,
-                "fields": fields 
-            });
+            res.render('index', {pass: true});
         } else {
-            console.log(err);
+            res.render('register', {pass: false});
         }
     });
 });
+
+
+
 
 
 module.exports = router;
