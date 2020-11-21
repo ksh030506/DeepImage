@@ -9,7 +9,6 @@ var dbconfig = require('../config/dbconfig');
 var app = express();
 var dbOptions = dbconfig;
 
-
 var connection = mysql.createConnection(dbOptions);
 connection.query('USE ' + dbconfig.database);
 
