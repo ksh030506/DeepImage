@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/css/slick.css">
     <link rel="stylesheet" href="/css/nice-select.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet", href="/css/index.css">
     
 </head>
 <body>
@@ -71,6 +72,9 @@
                                                 <!-- Button -->
                                                 <li class="button-header margin-left "><a href="/register" class="btn">Sign Up</a></li>
                                                 <li class="button-header"><a href="/login" class="btn3">Sign In</a></li>
+                                                    <% if(user) {%>
+                                                        <p id="userid"><%=user%> 님 환영합니다!</p>
+                                                    <%}%>
                                             </ul>
                                         </nav>
                                     </div>
@@ -638,9 +642,6 @@
   <div id="back-top" >
     <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
 </div>
-
-<%=pass%>
-
 
 <!-- JS here -->
 

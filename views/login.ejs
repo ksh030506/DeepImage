@@ -40,7 +40,7 @@
 
     <main class="login-body" data-vide-bg="/img/login-bg.mp4">
       <!-- Login Admin -->
-      <form class="form-default" action="/user/login" method="POST">
+      <form class="form-default" action="/login" method="POST">
         <div class="login-form">
           <!-- logo-login -->
           <div class="logo-login">
@@ -49,14 +49,14 @@
           <h2>Login Here</h2>
           <div class="form-input">
             <label for="name">Email</label>
-            <input type="email" name="email" placeholder="Email" />
+            <input type="email" id="id" name="email" placeholder="Email" />
           </div>
           <div class="form-input">
             <label for="name">Password</label>
-            <input type="password" name="password" placeholder="Password" />
+            <input type="password" id="pass" name="password" placeholder="Password" />
           </div>
           <div class="form-input pt-30">
-            <input type="submit" name="submit" value="login" />
+            <input type="submit" id="aaa" name="submit" value="login" />
           </div>
 
           <!-- Forget Password -->
@@ -67,7 +67,7 @@
       </form>
       <!-- /end login form -->
     </main>
-
+    
     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
     <script src="/js/vendor/jquery-1.12.4.min.js"></script>

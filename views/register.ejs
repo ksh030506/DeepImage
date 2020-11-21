@@ -43,7 +43,7 @@
 
     <main class="login-body" data-vide-bg="/img/login-bg.mp4">
       <!-- Login Admin -->
-      <form class="form-default" action="/user/sing" method="POST">
+      <form class="form-default" action="/sing" method="POST">
         <div class="login-form">
           <!-- logo-login -->
           <div class="logo-login">
@@ -80,17 +80,6 @@
       </form>
       <!-- /end login form -->
     </main>
-
-
-    <% if(pass == true) { %>
-      <script>
-        alter('회원가입 성공');
-      </script>
-    <% } else { %>
-      <script>
-        alter('이메일 중복');
-      </script>
-    <% } %>
 
     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->

@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use('/test', DbTest);
-app.use('/',GetHtml);
-app.use('/user', UserApi);
+app.use('/', UserApi);
+app.use('/', GetHtml);
 
 
 var server = app.listen(8080, function(){
