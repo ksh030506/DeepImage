@@ -25,7 +25,7 @@ app.use(session({
 
 app.get('/',function(req,res){
     if(!req.session.userEmail){
-        res.redirect('/login');
+        res.render('index', {user: req.session.userEmail});
     }
     else {
         res.render('index', {user: req.session.userEmail});
@@ -48,16 +48,13 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/register', function(req, res){
-    res.render('register');
+    if(!req.session.userEmail){
+        res.render('register');
+    }
+    else {
+        res.redirect('/');
+    }
 });
-
-// router.get('/logout', function(req, res){
-//     req.session.destroy(function(err){
-//         res.redirect('/');
-//     });
-// });
-
-
 
 //로그인 API
 app.post('/login', function(req, res){
@@ -91,32 +88,6 @@ app.post('/login', function(req, res){
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //회원가입 API
 app.post('/sing', function(req, res){
     var data = req.body;
@@ -124,7 +95,8 @@ app.post('/sing', function(req, res){
 
     connection.query('insert into user values(?, ?, ?)', param, function(err, rows, fields){
         if(!err){
-            res.render('index');
+            console.log("회원가입 성공");
+            res.redirect('/');
         } else {
             res.render('register');
         }
