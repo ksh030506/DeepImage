@@ -70,8 +70,6 @@ app.post('/login', function(req, res){
         }
 
         var DUserEmail = rows[0]['userEmail'];
-        
-
         var DuserPassword = rows[0]['password'];
 
         if(DuserPassword == RUserPassword){
