@@ -46,4 +46,35 @@ app.get('/elements', function(req, res){
         res.render('elements');
     }
 });
+
+
+app.post('/commin', function(req, res){
+
+    let UserSession = req.session.userEmail;
+
+    if(!UserSession){
+        console.log("세션이 없음");
+    } else {
+        console.log("세션이 존재 함 : " + UserSession);
+    }
+});
+
+app.delete('/delete/:id', function(req, res){
+    let UserSession = req.session.userEmail;
+    let commid = req.params.id;
+
+    connection.query('이메일 검색 세션에 맞는 ');
+    
+});
+
+app.patch('커뮤니티 글 수정', function(req, res){
+
+});
+
+app.get('커뮤니티 글 보기', function(req, res){
+
+});
+
+
+
 module.exports = app;

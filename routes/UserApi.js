@@ -61,7 +61,7 @@ app.post('/login', function(req, res){
     var RUserEmail = data.email;
     var RUserPassword = data.password;
 
-    connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
+    connection.query(`dselect * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
         if(err){
             console.log(err);
         }
