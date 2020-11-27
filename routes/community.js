@@ -119,18 +119,9 @@ app.patch('/commupdate/:id', function(req, res){
 //});
 
 app.get('/getcomm', function(req, res){
-    connection.query(`select * from community`, function(err, rows, fields){
-        if(err){
-            console.log(err);
-        } else {
-            let commid = rows[0].commid;
-            let title = rows[0].title;
-            let writer = rows[0].userEmail;
-            let content = rows[0].content;
-            let comm_time = rows[0].comm_time;
-
-            res.render('community', {});
-        }
+    connection.query('select * from community', function(err, rows, fields){
+        if(err) console.log(err);
+        res.render('community', {title: '게시판 리스트', rows: rows});
     });
 });
 
