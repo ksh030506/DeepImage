@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
 
@@ -14,6 +15,7 @@ connection.query('USE ' + dbconfig.database);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
     secret: '!@#$ﬁ^&',
@@ -33,7 +35,15 @@ app.get('/',function(req,res){
 
 app.get('/login', function(req, res){
     if(!req.session.userEmail){
-        res.render('login', {message: 'input yout id and password'});
+        var userId = "";
+        if(req.cookies['loginId'] !== undefined){
+            userId = req.cookies['loginId'];
+            res.render('login', {userId: userId});
+        }
+        else {
+            res.render('login', {userId: ""});
+        }
+        
     }
     else {
         res.redirect('/');
@@ -61,7 +71,7 @@ app.post('/login', function(req, res){
     var RUserEmail = data.email;
     var RUserPassword = data.password;
 
-    connection.query(`dselect * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
+    connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
         if(err){
             console.log(err);
         }
@@ -74,6 +84,10 @@ app.post('/login', function(req, res){
 
         if(DuserPassword == RUserPassword){
             console.log("로그인 성공");
+            if(req.body.rememberId === "checked"){
+                console.log("아이디 저장 체크!");
+                res.cookie('loginId', RUserEmail);
+            }
             req.session.userEmail = DUserEmail;
             req.session.save(function(){
                 return res.redirect('/');
