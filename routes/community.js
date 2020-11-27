@@ -22,12 +22,12 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.get('/blog', function(req, res){
+app.get('/community', function(req, res){
     if(!req.session.userEmail){
         res.redirect('/login');
     }
     else {
-        res.render('blog');
+        res.render('community');
     }
 });
 
@@ -36,16 +36,7 @@ app.get('/blog_details', function(req, res){
         res.redirect('/login');
     }
     else {
-        res.render('blog_details');
-    }
-});
-
-app.get('/elements', function(req, res){
-    if(!req.session.userEmail){
-        res.redirect('/login');
-    }
-    else {
-        res.render('elements');
+        res.render('communityOne');
     }
 });
 
