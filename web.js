@@ -1,22 +1,18 @@
 var express = require('express');
-const morgan = require('morgan');
 var app = express();
-var GetHtml = require('./routes/GetHtml');
+var Community = require('./routes/community');
 var UserApi = require('./routes/UserApi');
 var DbTest = require('./routes/dbTest');
-
-
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
+var Other = require('./routes/Other');
 
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.use('/test', DbTest);
-app.use('/',GetHtml);
-app.use('/user', UserApi);
+app.use('/', UserApi);
+app.use('/', Community);
+app.use('/', Other);
 
 
 var server = app.listen(8080, function(){
