@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>blog_details</title>
+    <title>blog</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="/css/magnific-popup.css" />
     <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
     <link rel="stylesheet" href="/css/themify-icons.css" />
+    <link rel="stylesheet" href="/css/themify-icons.css" />
     <link rel="stylesheet" href="/css/slick.css" />
     <link rel="stylesheet" href="/css/nice-select.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
   </head>
-
   <body>
     <!-- ? Preloader Start -->
     <div id="preloader-active">
@@ -58,7 +59,7 @@
                         <ul id="navigation">
                           <li><a href="/">Home</a></li>
                           <li><a href="/packages">Packages</a></li>
-                          <li><a href="/help">Help</a></li>
+                          <li><a href="/help.html">Help</a></li>
                           <li>
                             <a>Blog</a>
                             <ul class="submenu">
@@ -102,9 +103,7 @@
             <div class="row align-items-center justify-content-center">
               <div class="col-xl-8 col-lg-9 col-md-12">
                 <div class="hero__caption hero__caption3 text-center">
-                  <h1 data-animation="fadeInLeft" data-delay=".6s ">
-                    Blog Details
-                  </h1>
+                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Blog</h1>
                 </div>
               </div>
             </div>
@@ -119,55 +118,95 @@
           />
         </div>
       </div>
-      <!-- Slider Area End -->
-      <!--? Blog Area Start -->
+              </div>
+            </div>
 
-      
-      <%
-      for(var i=0; i<rows.length; i++) {
-        var data = rows[i];
-      %>
-    <form method="post" action="/commupdate">
-      <section class="blog_area single-post-area section-padding">
+      <!--? Blog Area Start-->
+    <form action="/createComm" method="POST">
+      <section class="blog_area section-padding">
         <div class="container">
           <div class="row">
-            <div class="col-lg-8 posts-list">
-              <div class="single-post">
-                <div class="feature-img">
-                  <img
-                    class="img-fluid"
-                    src="/img/blog/single_blog_1.png"
-                    alt=""
-                  />
-                </div>
-                <input name="id" value="<%=data.commid%>" readonly/>
-                <div class="blog_details">
-                  <h2 style="color: #2d2d2d">
-                    <input id="title" name="title" value="<%=data.title%>"></input>
-                  </h2>
-                  <ul class="blog-info-link mt-3 mb-4">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+              <div class="blog_left_sidebar">
+                <article class="blog_item">
+                  <div class="blog_details">
+                    제목 : <input name="title" placeholder="제목을 입력하세요">
+                      <h2 class="blog-head" style="color: #2d2d2d">
+                        내용 : <textarea name="content" placeholder="내용을 입력하세요"></textarea>
+                      </h2>
+                    <ul class="blog-info-link">
+                      <li>
+                        작성자 : <input name="userEmail" value="<%=user%>" readonly>
+                      </li>
+                    </ul>
+                    <button type="submit">글 생성</button>
+                  </div>
+                </article>
+              </div>
+            </div>
+    </form>
+
+    
+
+    
+
+            <div class="col-lg-4">
+              <div class="blog_right_sidebar">
+                <aside class="single_sidebar_widget search_widget">
+                  <form action="/search" method="POST">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          name="search"
+                          class="form-control"
+                          placeholder="Search Keyword"
+                          onfocus="this.placeholder = ''"
+                          onblur="this.placeholder = 'Search Keyword'"
+                        />
+                      </div>
+                    </div>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button><br/>
+                    <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
+                    <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글쓰기</button>
+                  </form>
+                </aside>
+                <aside class="single_sidebar_widget tag_cloud_widget">
+                  <h4 class="widget_title" style="color: #2d2d2d">
+                    Tag Clouds
+                  </h4>
+                  <ul class="list">
                     <li>
-                      <%=data.comm_time%>
+                      <a href="#">project</a>
+                    </li>
+                    <li>
+                      <a href="#">love</a>
+                    </li>
+                    <li>
+                      <a href="#">technology</a>
+                    </li>
+                    <li>
+                      <a href="#">travel</a>
+                    </li>
+                    <li>
+                      <a href="#">restaurant</a>
+                    </li>
+                    <li>
+                      <a href="#">life style</a>
+                    </li>
+                    <li>
+                      <a href="#">design</a>
+                    </li>
+                    <li>
+                      <a href="#">illustration</a>
                     </li>
                   </ul>
-                  <input name="writer" value="<%=data.userEmail%>" readonly><br/>
-                  <input id="content" class="excert" name="content" value="<%=data.content%>"></input>
-                </div>
+                </aside>
               </div>
+            </div>
           </div>
         </div>
       </section>
-      <button id="updatebtn" type="submit">글 수정</button>
-    </form>
-    <form action="/deletecomm" method="post">
-      <input type="hidden" name="id" value="<%=data.commid%>"/>
-      <button type="submit">글 삭제</button>
-    </form>
-      <%
-      }
-      %>
-
-
       <!-- Blog Area End -->
     </main>
     <footer>
@@ -311,7 +350,7 @@
     </div>
 
     <!-- JS here -->
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+
     <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
     <script src="/js/vendor/jquery-1.12.4.min.js"></script>
@@ -336,7 +375,7 @@
 
     <!-- counter , waypoint,Hover Direction -->
     <script src="/js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
+    <script src="/js/waypoints.min.js"></script>
     <script src="/js/jquery.countdown.min.js"></script>
     <script src="/js/hover-direction-snake.min.js"></script>
 

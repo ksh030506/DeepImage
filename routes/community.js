@@ -43,12 +43,12 @@ app.get('/blog_details', function(req, res){
     }
 });
 
-app.get('/글쓰기 페이지', function(req, res){
+app.get('/create', function(req, res){
     if(!req.session.userEmail){
         res.redirect('/login');
     }
     else{
-        res.render('글쓰기 페이지', {user: req.session.userEmail});
+        res.render('createcommunity', {user: req.session.userEmail});
     }
 });
 
@@ -56,52 +56,58 @@ app.post('/createComm', function(req, res){
     let data = req.body;
     let title = data.title;
     let content = data.content;
-    let writer = req.session.userEmail || data.userEmail;
+    let writer = req.session.userEmail;
 
-    connection.query('insert into community(userEmail, title, content) VALUES(?, ?, ?)', [writer ,title, content], function(err, rows, fields){
-        if(err){
-            console.log(err);
-        }
-        else {
-            res.render('community');
-        }
-    });
+    if(title && content && writer){
+        connection.query('insert into community(userEmail, title, content) VALUES(?, ?, ?)', [writer ,title, content], function(err, rows, fields){
+            if(err){
+                console.log(err);
+            }
+            else {
+                res.redirect('/getcomm');
+            }
+        });
+    } else {
+        console.log("값이 비어있습니다.");
+        res.redirect('/getcomm');
+    }
 });
 
 app.post('/deletecomm', function(req, res){
+    let data = req.body;
     let UserSession = req.session.userEmail;
     let commid = req.body.id;
+    let writer = data.writer;
+    
+    if(UserSession != writer){
+        console.log("이메일 틀림");
+        res.redirect('/getcomm');
+    } else {
+        connection.query('delete from community where commid = ?', [commid], function(err, rows, fields){
+            if(err){
+                console.log(err);
+            }
+            else {
+                res.redirect('/comm');
+            }
+        });
+    }
+});
 
-    // connection.query('먼저 UsreSession이 DB에 들어가 있는 User와 일치한지 검사', function(err, rows, fields){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     else {
-            connection.query('delete from community where commid = ?', [commid], function(err, rows, fields){
-                if(err){
-                    console.log(err);
-                }
-                else {
-                    res.redirect('/comm');
-                }
-            });
-       // }
-    });
-// });
 
 
 app.post('/commupdate', function(req, res){
     let data = req.body;
     let commid = data.id;
     let UserSession = req.session.userEmail;
+    let writer = data.writer;
     let title = data.title;
     let content = data.content;
-
-    // connection.query('먼저 UserSession이 DB에 들어가 있는 User와 일치한지 검사', function(err, rows, fields){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     else {
+        if(UserSession != writer){
+            console.log("이메일 틀림");
+            res.redirect('/getcomm');
+        }
+        else {
             connection.query('update community set title = ?, content = ? where commid = ?', [title, content, commid], function(err, rows, fields){
                 if(err){
                     console.log(err);
@@ -109,22 +115,22 @@ app.post('/commupdate', function(req, res){
                     res.redirect('/getcomm');
                 }
             });
-        //}
+        }
     });
-//});
 
-app.get('/comm', function(req, res){
-    connection.query('select * from community', function(err, rows, fields){
+app.get('/getcomm', function(req, res){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM Net.community`, function(err, rows, fields){
         if(err) console.log(err);
         res.render('community', {title: ' 게시판 리스트', rows: rows});
     });
 });
 
+
 app.get('/getcomm/:id', function(req, res){
     let commid = req.params.id;
     // 만약 사용자가 맞지 않다면 수정할 수 없는 텍스트를 보여주고 사용자가 맞으면 수정 가능한 텍스트를 보여준다.
     let UserSession = req.session.userEmail;
-    connection.query(`select * from community where commid = ?`, [commid], function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM community where commid = ?`, [commid], function(err, rows, fields){
         if(err){
             console.log(err);
         } else {
@@ -132,6 +138,18 @@ app.get('/getcomm/:id', function(req, res){
         }
     });
 });
+
+app.post('/search', function(req, res){
+    let data = req.body;
+    let searchkeyword = data.search;
+    let querykeyword = '%' + searchkeyword + '%';
+
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM community where title like ? or userEmail like ?`, [querykeyword, querykeyword], function(err, rows, fields){
+        if(err) console.log(err);
+        res.render('community', {rows:rows});
+    });
+});
+
 
 
 
