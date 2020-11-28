@@ -3,26 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>help</title>
+    <title>blog</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <!-- CSS here -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/owl.carousel.min.css" />
     <link rel="stylesheet" href="/css/slicknav.css" />
-    <link rel="stylesheet" href="/css/flaticon.css" />
-    <link rel="stylesheet" href="/css/progressbar_barfiller.css" />
-    <link rel="stylesheet" href="/css/gijgo.css" />
     <link rel="stylesheet" href="/css/animate.min.css" />
-    <link rel="stylesheet" href="/css/animated-headline.css" />
+    <link rel="stylesheet" href="/css/hamburgers.min.css" />
     <link rel="stylesheet" href="/css/magnific-popup.css" />
     <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="/css/themify-icons.css" />
     <link rel="stylesheet" href="/css/themify-icons.css" />
     <link rel="stylesheet" href="/css/slick.css" />
     <link rel="stylesheet" href="/css/nice-select.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
   </head>
   <body>
     <!-- ? Preloader Start -->
@@ -60,9 +60,9 @@
                         <ul id="navigation">
                           <li><a href="/">Home</a></li>
                           <li><a href="/packages">Packages</a></li>
-                          <li><a href="/help">Help</a></li>
+                          <li><a href="/help.html">Help</a></li>
                           <li><a href="/community">Community</a></li>
-                        <li><a href="/contact">Contact</a></li>
+                          <li><a href="/contact">Contact</a></li>
                           <!-- Button -->
                           <li class="button-header margin-left">
                             <a href="/register" class="btn">Sign Up</a>
@@ -74,6 +74,7 @@
                             <p id="userid"><%=user%> 님 환영합니다!</p>
                             <li class="button-header"><a href="/logout" class="btn3">로그아웃</a></li>
                         <%}%>
+                        </ul>
                       </nav>
                     </div>
                   </div>
@@ -98,9 +99,7 @@
             <div class="row align-items-center justify-content-center">
               <div class="col-xl-8 col-lg-9 col-md-12">
                 <div class="hero__caption hero__caption3 text-center">
-                  <h1 data-animation="fadeInLeft" data-delay=".6s ">
-                    Help center
-                  </h1>
+                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Blog</h1>
                 </div>
               </div>
             </div>
@@ -115,88 +114,133 @@
           />
         </div>
       </div>
-      <!-- Slider Area End -->
-      <!-- ask questions -->
-      <section class="ask-questions section-padding40 fix">
+              </div>
+            </div>
+
+
+     <!--? Blog Area Start-->
+     <form action="/createComm" method="POST" enctype="multipart/form-data">
+      <section class="blog_area section-padding">
         <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-9 col-md-10">
-              <!-- Section Tittle -->
-              <div class="section-tittle section-tittle2 text-center mb-90">
-                <h2>Frequently ask questions</h2>
-                <p>
-                  Supercharge your WordPress hosting with detailed website
-                  analytics, marketing tools. Our experts are just part of the
-                  reason Bluehost is the ideal home for your WordPress website.
-                  We're here to help you succeed!
-                </p>
-              </div>
-            </div>
-          </div>
           <div class="row">
-            <div class="col-lg-6 col-md-6">
-              <div class="single-question single-question2 d-flex mb-50">
-                <span> Q.</span>
-                <div class="pera">
-                  <h2>Why can't people connect to the web server on my PC?</h2>
-                  <p>
-                    We operate one of the most advanced 100 Gbit networks in the
-                    world, complete with Anycast support and extensive DDoS
-                    protection.
-                  </p>
-                </div>
+            <div class="col-lg-8 mb-5 mb-lg-0">
+              <div class="blog_left_sidebar">
+                <article class="blog_item">
+                  <div class="blog_details">
+                    <h2>제목</h2>
+                    <input name="title" style="text-align:center; width:500px; height:23px;" placeholder="제목을 입력하세요"><br/><br/>
+                    <h2>작성자</h2>
+                    <input name="userEmail" style="text-align:center; width:300px; height:23px;" value="<%=user%>" readonly><br/><br/>
+                    <div class="box-file-input">
+                      <label>
+                        <input type="file" name="filename" class="file-input" accept="image/*" id="filename">
+                      </label>
+                      <span class="filename">
+                        파일을 선택해주세요.
+                      </div>
+                    <h2>내용</h2>
+                    <textarea name="content" cols="80" rows="10" placeholder="내용을 입력하세요"></textarea><br/><br/>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 생성</button>
+                  </div>
+                </article>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="single-question single-question2 d-flex mb-50">
-                <span> Q.</span>
-                <div class="pera">
-                  <h2>What domain name should I choose for my site?</h2>
-                  <p>
-                    We operate one of the most advanced 100 Gbit networks in the
-                    world, complete with Anycast support and extensive DDoS
-                    protection.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="single-question single-question2 d-flex mb-50">
-                <span> Q.</span>
-                <div class="pera">
-                  <h2>How can I make my website work without www. in front?</h2>
-                  <p>
-                    We operate one of the most advanced 100 Gbit networks in the
-                    world, complete with Anycast support and extensive DDoS
-                    protection.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <div class="single-question single-question2 d-flex mb-50">
-                <span> Q.</span>
-                <div class="pera">
-                  <h2>Why does Internet Information Server want a password?</h2>
-                  <p>
-                    We operate one of the most advanced 100 Gbit networks in the
-                    world, complete with Anycast support and extensive DDoS
-                    protection.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xl-12">
-              <div class="more-btn text-center mt-20">
-                <a href="#" class="btn">Go to Support</a>
+    </form>
+
+<style>
+  .box-file-input label{
+    display:inline-block;
+    background:#23a3a7;
+    color:#fff;
+    padding:0px 15px;
+    line-height:35px;
+    cursor:pointer;
+  }
+  
+  .box-file-input label:after{
+    content:"파일등록";
+  }
+  
+  .box-file-input .file-input{
+    display:none;
+  }
+  
+  .box-file-input .filename{
+    display:inline-block;
+    padding-left:10px;
+  }
+</style>
+<script>
+  $(document).on("change", ".file-input", function(){
+   
+    $filename = $(this).val();
+
+    if($filename == "")
+      $filename = "파일을 선택해주세요.";
+
+    $(".filename").text($filename);
+
+  });
+</script>
+
+            <div class="col-lg-4">
+              <div class="blog_right_sidebar">
+                <aside class="single_sidebar_widget search_widget">
+                  <form action="/search" method="POST">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          name="search"
+                          class="form-control"
+                          placeholder="Search Keyword"
+                          onfocus="this.placeholder = ''"
+                          onblur="this.placeholder = 'Search Keyword'"
+                        />
+                      </div>
+                    </div>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button><br/>
+                    <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
+                    <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글쓰기</button>
+                  </form>
+                </aside>
+                <aside class="single_sidebar_widget tag_cloud_widget">
+                  <h4 class="widget_title" style="color: #2d2d2d">
+                    Tag Clouds
+                  </h4>
+                  <ul class="list">
+                    <li>
+                      <a href="#">project</a>
+                    </li>
+                    <li>
+                      <a href="#">love</a>
+                    </li>
+                    <li>
+                      <a href="#">technology</a>
+                    </li>
+                    <li>
+                      <a href="#">travel</a>
+                    </li>
+                    <li>
+                      <a href="#">restaurant</a>
+                    </li>
+                    <li>
+                      <a href="#">life style</a>
+                    </li>
+                    <li>
+                      <a href="#">design</a>
+                    </li>
+                    <li>
+                      <a href="#">illustration</a>
+                    </li>
+                  </ul>
+                </aside>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <!-- End ask questions -->
+      <!-- Blog Area End -->
     </main>
     <footer>
       <div class="footer-wrappr" data-background="/img/gallery/footer-bg.png">
@@ -358,15 +402,9 @@
 
     <!-- Date Picker -->
     <script src="/js/gijgo.min.js"></script>
-
-    <!-- Video bg -->
-    <script src="/js/jquery.vide.js"></script>
-
     <!-- Nice-select, sticky -->
     <script src="/js/jquery.nice-select.min.js"></script>
     <script src="/js/jquery.sticky.js"></script>
-    <!-- Progress -->
-    <script src="/js/jquery.barfiller.js"></script>
 
     <!-- counter , waypoint,Hover Direction -->
     <script src="/js/jquery.counterup.min.js"></script>

@@ -6,6 +6,7 @@ var DbTest = require('./routes/dbTest');
 var Other = require('./routes/Other');
 
 app.use(express.static('public'));
+app.use(express.static('upload'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 

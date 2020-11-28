@@ -1,0 +1,2 @@
+ALTER TABLE community
+ADD (comm_time DATETIME DEFAULT NOW());

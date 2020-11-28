@@ -60,16 +60,7 @@
                           <li><a href="/">Home</a></li>
                           <li><a href="/packages">Packages</a></li>
                           <li><a href="/help.html">Help</a></li>
-                          <li>
-                            <a>Blog</a>
-                            <ul class="submenu">
-                              <li><a href="/blog">Blog</a></li>
-                              <li>
-                                <a href="/blog_details">Blog Details</a>
-                              </li>
-                              <li><a href="/elements">Element</a></li>
-                            </ul>
-                          </li>
+                          <li><a href="/community">Community</a></li>
                           <li><a href="/contact">Contact</a></li>
                           <!-- Button -->
                           <li class="button-header margin-left">
@@ -78,6 +69,10 @@
                           <li class="button-header">
                             <a href="/login" class="btn3">Sign In</a>
                           </li>
+                          <% if(user) {%>
+                            <p id="userid"><%=user%> 님 환영합니다!</p>
+                            <li class="button-header"><a href="/logout" class="btn3">로그아웃</a></li>
+                        <%}%>
                         </ul>
                       </nav>
                     </div>
@@ -126,324 +121,70 @@
           <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
               <div class="blog_left_sidebar">
+
+                <%
+                var count = 0;
+                for(var i=0; i<rows.length; i++) {
+                  count++;
+                  var data = rows[i];
+                  var Image_data = '/image/'+data.Img;
+                %>
                 <article class="blog_item">
                   <div class="blog_item_img">
                     <img
                       class="card-img rounded-0"
-                      src="/img/blog/single_blog_1.png"
+                      src="<%=Image_data%>"+
                       alt=""
                     />
+                    <input type="hidden" value="<%=data.commid%>">
                     <a href="#" class="blog_item_date">
-                      <h3>14</h3>
-                      <p>Jan</p>
+                      <h3><%=count%></h3>
                     </a>
                   </div>
                   <div class="blog_details">
                     <a class="d-inline-block" href="/blog_details">
                       <h2 class="blog-head" style="color: #2d2d2d">
-                        Google inks pact for new 35-storey office
+                        <a href="/getcomm/<%=data.commid%>"><%=data.title%></a>
                       </h2>
                     </a>
                     <p>
-                      That dominion stars lights dominion divide years for
-                      fourth have don't stars is that he earth it first without
-                      heaven in place seed it second morning saying.
+                      <%=data.userEmail%>
                     </p>
                     <ul class="blog-info-link">
                       <li>
-                        <a href="#"
-                          ><i class="fa fa-user"></i> Travel, Lifestyle</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-comments"></i> 03 Comments</a
-                        >
+                        <%=data.comm_time%>
                       </li>
                     </ul>
                   </div>
                 </article>
-                <article class="blog_item">
-                  <div class="blog_item_img">
-                    <img
-                      class="card-img rounded-0"
-                      src="/img/blog/single_blog_2.png"
-                      alt=""
-                    />
-                    <a href="#" class="blog_item_date">
-                      <h3>15</h3>
-                      <p>Jan</p>
-                    </a>
-                  </div>
-                  <div class="blog_details">
-                    <a class="d-inline-block" href="/blog_details">
-                      <h2 class="blog-head" style="color: #2d2d2d">
-                        Google inks pact for new 35-storey office
-                      </h2>
-                    </a>
-                    <p>
-                      That dominion stars lights dominion divide years for
-                      fourth have don't stars is that he earth it first without
-                      heaven in place seed it second morning saying.
-                    </p>
-                    <ul class="blog-info-link">
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-user"></i> Travel, Lifestyle</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-comments"></i> 03 Comments</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </article>
-                <article class="blog_item">
-                  <div class="blog_item_img">
-                    <img
-                      class="card-img rounded-0"
-                      src="/img/blog/single_blog_3.png"
-                      alt=""
-                    />
-                    <a href="#" class="blog_item_date">
-                      <h3>15</h3>
-                      <p>Jan</p>
-                    </a>
-                  </div>
-                  <div class="blog_details">
-                    <a class="d-inline-block" href="/blog_details">
-                      <h2 class="blog-head" style="color: #2d2d2d">
-                        Google inks pact for new 35-storey office
-                      </h2>
-                    </a>
-                    <p>
-                      That dominion stars lights dominion divide years for
-                      fourth have don't stars is that he earth it first without
-                      heaven in place seed it second morning saying.
-                    </p>
-                    <ul class="blog-info-link">
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-user"></i> Travel, Lifestyle</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-comments"></i> 03 Comments</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </article>
-                <article class="blog_item">
-                  <div class="blog_item_img">
-                    <img
-                      class="card-img rounded-0"
-                      src="/img/blog/single_blog_4.png"
-                      alt=""
-                    />
-                    <a href="#" class="blog_item_date">
-                      <h3>15</h3>
-                      <p>Jan</p>
-                    </a>
-                  </div>
-                  <div class="blog_details">
-                    <a class="d-inline-block" href="/blog_details">
-                      <h2 class="blog-head" style="color: #2d2d2d">
-                        Google inks pact for new 35-storey office
-                      </h2>
-                    </a>
-                    <p>
-                      That dominion stars lights dominion divide years for
-                      fourth have don't stars is that he earth it first without
-                      heaven in place seed it second morning saying.
-                    </p>
-                    <ul class="blog-info-link">
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-user"></i> Travel, Lifestyle</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-comments"></i> 03 Comments</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </article>
-                <article class="blog_item">
-                  <div class="blog_item_img">
-                    <img
-                      class="card-img rounded-0"
-                      src="/img/blog/single_blog_5.png"
-                      alt=""
-                    />
-                    <a href="#" class="blog_item_date">
-                      <h3>15</h3>
-                      <p>Jan</p>
-                    </a>
-                  </div>
-                  <div class="blog_details">
-                    <a class="d-inline-block" href="/blog_details">
-                      <h2 class="blog-head" style="color: #2d2d2d">
-                        Google inks pact for new 35-storey office
-                      </h2>
-                    </a>
-                    <p>
-                      That dominion stars lights dominion divide years for
-                      fourth have don't stars is that he earth it first without
-                      heaven in place seed it second morning saying.
-                    </p>
-                    <ul class="blog-info-link">
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-user"></i> Travel, Lifestyle</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><i class="fa fa-comments"></i> 03 Comments</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </article>
-                <nav class="blog-pagination justify-content-center d-flex">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a href="#" class="page-link" aria-label="Previous">
-                        <i class="ti-angle-left"></i>
-                      </a>
-                    </li>
-                    <li class="page-item">
-                      <a href="#" class="page-link">1</a>
-                    </li>
-                    <li class="page-item active">
-                      <a href="#" class="page-link">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a href="#" class="page-link" aria-label="Next">
-                        <i class="ti-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                <%}%>
               </div>
             </div>
+
             <div class="col-lg-4">
               <div class="blog_right_sidebar">
                 <aside class="single_sidebar_widget search_widget">
-                  <form action="#">
+                  <form action="/search" method="POST">
                     <div class="form-group">
                       <div class="input-group mb-3">
                         <input
                           type="text"
+                          name="search"
                           class="form-control"
                           placeholder="Search Keyword"
                           onfocus="this.placeholder = ''"
                           onblur="this.placeholder = 'Search Keyword'"
                         />
-                        <div class="input-group-append">
-                          <button class="btns" type="button">
-                            <i class="ti-search"></i>
-                          </button>
-                        </div>
                       </div>
                     </div>
-                    <button
-                      class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                      type="submit"
-                    >
-                      Search
-                    </button>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button><br/>
                   </form>
-                </aside>
-                <aside class="single_sidebar_widget post_category_widget">
-                  <h4 class="widget_title" style="color: #2d2d2d">Category</h4>
-                  <ul class="list cat-list">
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Resaurant food</p>
-                        <p>(37)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Travel news</p>
-                        <p>(10)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Modern technology</p>
-                        <p>(03)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Product</p>
-                        <p>(11)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Inspiration</p>
-                        <p>21</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex">
-                        <p>Health Care (21)</p>
-                        <p>09</p>
-                      </a>
-                    </li>
-                  </ul>
-                </aside>
-                <aside class="single_sidebar_widget popular_post_widget">
-                  <h3 class="widget_title" style="color: #2d2d2d">
-                    Recent Post
-                  </h3>
-                  <div class="media post_item">
-                    <img src="/img/post/post_1.png" alt="post" />
-                    <div class="media-body">
-                      <a href="/blog_details">
-                        <h3 style="color: #2d2d2d">
-                          From life was you fish...
-                        </h3>
-                      </a>
-                      <p>January 12, 2019</p>
-                    </div>
-                  </div>
-                  <div class="media post_item">
-                    <img src="/img/post/post_2.png" alt="post" />
-                    <div class="media-body">
-                      <a href="/blog_details">
-                        <h3 style="color: #2d2d2d">The Amazing Hubble</h3>
-                      </a>
-                      <p>02 Hours ago</p>
-                    </div>
-                  </div>
-                  <div class="media post_item">
-                    <img src="/img/post/post_3.png" alt="post" />
-                    <div class="media-body">
-                      <a href="/blog_details">
-                        <h3 style="color: #2d2d2d">Astronomy Or Astrology</h3>
-                      </a>
-                      <p>03 Hours ago</p>
-                    </div>
-                  </div>
-                  <div class="media post_item">
-                    <img src="/img/post/post_4.png" alt="post" />
-                    <div class="media-body">
-                      <a href="/blog_details">
-                        <h3 style="color: #2d2d2d">Asteroids telescope</h3>
-                      </a>
-                      <p>01 Hours ago</p>
-                    </div>
-                  </div>
+                  <form action="/getcomm" method="GET">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
+                  </form>
+                  <form action="/create" method="GET">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글쓰기</button>
+                  </form>
                 </aside>
                 <aside class="single_sidebar_widget tag_cloud_widget">
                   <h4 class="widget_title" style="color: #2d2d2d">
@@ -475,91 +216,6 @@
                       <a href="#">illustration</a>
                     </li>
                   </ul>
-                </aside>
-
-                <aside class="single_sidebar_widget instagram_feeds">
-                  <h4 class="widget_title" style="color: #2d2d2d">
-                    Instagram Feeds
-                  </h4>
-                  <ul class="instagram_row flex-wrap">
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_5.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_6.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_7.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_8.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_9.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <img
-                          class="img-fluid"
-                          src="/img/post/post_10.png"
-                          alt=""
-                        />
-                      </a>
-                    </li>
-                  </ul>
-                </aside>
-                <aside class="single_sidebar_widget newsletter_widget">
-                  <h4 class="widget_title" style="color: #2d2d2d">
-                    Newsletter
-                  </h4>
-                  <form action="#">
-                    <div class="form-group">
-                      <input
-                        type="email"
-                        class="form-control"
-                        onfocus="this.placeholder = ''"
-                        onblur="this.placeholder = 'Enter email'"
-                        placeholder="Enter email"
-                        required
-                      />
-                    </div>
-                    <button
-                      class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                      type="submit"
-                    >
-                      Subscribe
-                    </button>
-                  </form>
                 </aside>
               </div>
             </div>
