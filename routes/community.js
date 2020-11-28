@@ -68,9 +68,9 @@ app.post('/createComm', function(req, res){
     });
 });
 
-app.delete('/deletecomm/:id', function(req, res){
+app.post('/deletecomm', function(req, res){
     let UserSession = req.session.userEmail;
-    let commid = req.params.id;
+    let commid = req.body.id;
 
     // connection.query('먼저 UsreSession이 DB에 들어가 있는 User와 일치한지 검사', function(err, rows, fields){
     //     if(err){
@@ -82,7 +82,7 @@ app.delete('/deletecomm/:id', function(req, res){
                     console.log(err);
                 }
                 else {
-                    console.log(rows);
+                    res.redirect('/comm');
                 }
             });
        // }
@@ -90,9 +90,9 @@ app.delete('/deletecomm/:id', function(req, res){
 // });
 
 
-app.patch('/commupdate/:id', function(req, res){
-    let commid = req.params.id;
+app.post('/commupdate', function(req, res){
     let data = req.body;
+    let commid = data.id;
     let UserSession = req.session.userEmail;
     let title = data.title;
     let content = data.content;
@@ -106,22 +106,17 @@ app.patch('/commupdate/:id', function(req, res){
                 if(err){
                     console.log(err);
                 } else {
-                    connection.query('select * from community where commid = ?', [commid], function(err, rows, fields){
-                        if(err) console.log(err);
-                        else {
-                            console.log(rows);
-                        }
-                    })
+                    res.redirect('/getcomm');
                 }
             });
         //}
     });
 //});
 
-app.get('/getcomm', function(req, res){
+app.get('/comm', function(req, res){
     connection.query('select * from community', function(err, rows, fields){
         if(err) console.log(err);
-        res.render('community', {title: '게시판 리스트', rows: rows});
+        res.render('community', {title: ' 게시판 리스트', rows: rows});
     });
 });
 
@@ -133,13 +128,7 @@ app.get('/getcomm/:id', function(req, res){
         if(err){
             console.log(err);
         } else {
-            let commid = rows[0].commid;
-            let title = rows[0].title;
-            let writer = rows[0].userEmail;
-            let content = rows[0].content;
-            let comm_time = rows[0].comm_time;
-
-            res.render('communityOne', {});
+            res.render('communityOne', {rows: rows});
         }
     });
 });
