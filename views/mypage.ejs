@@ -147,11 +147,9 @@
                     if(pass == 0) {
                     %>
                     <form action="/email" method="POST">
-                        <button type="submit">인증번호 전송</button>
-                    </form>
-                    <form action="/email" method="POST">
-                        <input type="text" name="auth_code" placeholder="인증번호를 입력하세요">
-                        <button type="submit">확인</button>
+                        <input type="text" name="auth_code" style="width:200px; height:50px;" placeholder="인증번호를 입력하세요">
+                        <button class="aaa">인증번호 전송</button><br/><br/>
+                        <button class="bbb">확인</button>
                     </form>
                       <%
                     }
@@ -160,6 +158,19 @@
                 </article>
               </div>
             </div>
+
+            <style>
+                .aaa{
+                    background-color:blueviolet;
+                    width: 130px;
+                    height: 50px;
+                }
+                .bbb{
+                    background-color:blueviolet;
+                    width: 200px;
+                    height: 50px;
+                }
+            </style>
 
 
             <div class="col-lg-4">
