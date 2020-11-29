@@ -7,6 +7,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <!-- CSS here -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -118,7 +119,7 @@
 
 
      <!--? Blog Area Start-->
-     <form action="/createComm" method="POST">
+     <form action="/createComm" method="POST" enctype="multipart/form-data">
       <section class="blog_area section-padding">
         <div class="container">
           <div class="row">
@@ -130,6 +131,13 @@
                     <input name="title" style="text-align:center; width:500px; height:23px;" placeholder="제목을 입력하세요"><br/><br/>
                     <h2>작성자</h2>
                     <input name="userEmail" style="text-align:center; width:300px; height:23px;" value="<%=user%>" readonly><br/><br/>
+                    <div class="box-file-input">
+                      <label>
+                        <input type="file" name="filename" class="file-input" accept="image/*" id="filename">
+                      </label>
+                      <span class="filename">
+                        파일을 선택해주세요.
+                      </div>
                     <h2>내용</h2>
                     <textarea name="content" cols="80" rows="10" placeholder="내용을 입력하세요"></textarea><br/><br/>
                     <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 생성</button>
@@ -138,6 +146,42 @@
               </div>
             </div>
     </form>
+
+<style>
+  .box-file-input label{
+    display:inline-block;
+    background:#23a3a7;
+    color:#fff;
+    padding:0px 15px;
+    line-height:35px;
+    cursor:pointer;
+  }
+  
+  .box-file-input label:after{
+    content:"파일등록";
+  }
+  
+  .box-file-input .file-input{
+    display:none;
+  }
+  
+  .box-file-input .filename{
+    display:inline-block;
+    padding-left:10px;
+  }
+</style>
+<script>
+  $(document).on("change", ".file-input", function(){
+   
+    $filename = $(this).val();
+
+    if($filename == "")
+      $filename = "파일을 선택해주세요.";
+
+    $(".filename").text($filename);
+
+  });
+</script>
 
             <div class="col-lg-4">
               <div class="blog_right_sidebar">

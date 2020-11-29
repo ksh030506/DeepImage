@@ -123,18 +123,22 @@
               <div class="blog_left_sidebar">
 
                 <%
+                var count = 0;
                 for(var i=0; i<rows.length; i++) {
+                  count++;
                   var data = rows[i];
+                  var Image_data = '/image/'+data.Img;
                 %>
                 <article class="blog_item">
                   <div class="blog_item_img">
                     <img
                       class="card-img rounded-0"
-                      src="/img/blog/single_blog_1.png"
+                      src="<%=Image_data%>"+
                       alt=""
                     />
+                    <input type="hidden" value="<%=data.commid%>">
                     <a href="#" class="blog_item_date">
-                      <h3><%=data.commid%></h3>
+                      <h3><%=count%></h3>
                     </a>
                   </div>
                   <div class="blog_details">

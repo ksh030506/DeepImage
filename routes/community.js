@@ -1,13 +1,24 @@
-var express = require('express');
-var mysql = require('mysql');
-var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
-var bodyParser = require('body-parser');
-var ejs = require('ejs');
-var dbconfig = require('../config/dbconfig');
+const express = require('express');
+const mysql = require('mysql');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const bodyParser = require('body-parser');
+const ejs = require('ejs');
+const dbconfig = require('../config/dbconfig');
 const { user } = require('../config/dbconfig');
 const e = require('express');
-const { truncate } = require('fs');
+const fs = require('fs');
+
+const multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './upload/image') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname) // cb 콜백함수를 통해 전송된 파일 이름 설정
+    }
+});
+  var upload = multer({ storage: storage });
 
 var app = express();
 var dbOptions = dbconfig;
@@ -52,14 +63,16 @@ app.get('/create', function(req, res){
     }
 });
 
-app.post('/createComm', function(req, res){
+app.post('/createComm', upload.single('filename'), function(req, res){
     let data = req.body;
     let title = data.title;
     let content = data.content;
     let writer = req.session.userEmail;
+    let image = req.file.filename;
+    
 
     if(title && content && writer){
-        connection.query('insert into community(userEmail, title, content) VALUES(?, ?, ?)', [writer ,title, content], function(err, rows, fields){
+        connection.query('insert into community(userEmail, title, content, Img) VALUES(?, ?, ?, ?)', [writer ,title, content, image], function(err, rows, fields){
             if(err){
                 console.log(err);
             }
@@ -119,7 +132,7 @@ app.post('/commupdate', function(req, res){
     });
 
 app.get('/getcomm', function(req, res){
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM Net.community`, function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM Net.community`, function(err, rows, fields){
         if(err) console.log(err);
         res.render('community', {title: ' 게시판 리스트', rows: rows, user:req.session.userEmail});
     });
@@ -130,7 +143,7 @@ app.get('/getcomm/:id', function(req, res){
     let commid = req.params.id;
     // 만약 사용자가 맞지 않다면 수정할 수 없는 텍스트를 보여주고 사용자가 맞으면 수정 가능한 텍스트를 보여준다.
     let UserSession = req.session.userEmail;
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM community where commid = ?`, [commid], function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where commid = ?`, [commid], function(err, rows, fields){
         if(err){
             console.log(err);
         } else {
@@ -144,7 +157,7 @@ app.post('/search', function(req, res){
     let searchkeyword = data.search;
     let querykeyword = '%' + searchkeyword + '%';
 
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM community where title like ? or userEmail like ?`, [querykeyword, querykeyword], function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where title like ? or userEmail like ?`, [querykeyword, querykeyword], function(err, rows, fields){
         if(err) console.log(err);
         res.render('community', {rows:rows, user:req.session.userEmail});
     });
