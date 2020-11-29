@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>packages</title>
+    <title>blog</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
@@ -12,17 +12,16 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/owl.carousel.min.css" />
     <link rel="stylesheet" href="/css/slicknav.css" />
-    <link rel="stylesheet" href="/css/flaticon.css" />
-    <link rel="stylesheet" href="/css/progressbar_barfiller.css" />
-    <link rel="stylesheet" href="/css/gijgo.css" />
     <link rel="stylesheet" href="/css/animate.min.css" />
-    <link rel="stylesheet" href="/css/animated-headline.css" />
+    <link rel="stylesheet" href="/css/hamburgers.min.css" />
     <link rel="stylesheet" href="/css/magnific-popup.css" />
     <link rel="stylesheet" href="/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="/css/themify-icons.css" />
     <link rel="stylesheet" href="/css/themify-icons.css" />
     <link rel="stylesheet" href="/css/slick.css" />
     <link rel="stylesheet" href="/css/nice-select.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
   </head>
   <body>
     <!-- ? Preloader Start -->
@@ -30,7 +29,7 @@
       <div class="preloader d-flex align-items-center justify-content-center">
         <div class="preloader-inner position-relative">
           <div class="preloader-circle"></div>
-          <div class="prneloader-img pere-text">
+          <div class="preloader-img pere-text">
             <img src="/img/logo/loder.png" alt="" />
           </div>
         </div>
@@ -60,7 +59,7 @@
                         <ul id="navigation">
                           <li><a href="/">Home</a></li>
                           <li><a href="/imageChage">ImageChage</a></li>
-                          <li><a href="/help">Help</a></li>
+                          <li><a href="/help.html">Help</a></li>
                           <li><a href="/community">Community</a></li>
                           <li><a href="/contact">Contact</a></li>
                           <!-- Button -->
@@ -94,17 +93,12 @@
       <!-- Slider Area Start-->
       <div class="slider-area slider-bg">
         <!-- Single Slider -->
-        <div class="single-slider d-flex align-items-center slider-height2">
+        <div class="single-slider d-flex align-items-center slider-height3">
           <div class="container">
             <div class="row align-items-center justify-content-center">
               <div class="col-xl-8 col-lg-9 col-md-12">
-                <div class="hero__caption hero__caption2 text-center">
-                  <h1 data-animation="fadeInLeft" data-delay=".6s ">
-                    AI 이미지 변환을 시작하세요!!
-                  </h1>
-                  <p data-animation="fadeInLeft" data-delay=".8s">
-                  저장된 이미지를 AI를 통해 다양한 사진으로 변환해보세요!
-                  </p>
+                <div class="hero__caption hero__caption3 text-center">
+                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Blog</h1>
                 </div>
               </div>
             </div>
@@ -120,144 +114,107 @@
         </div>
       </div>
       <!-- Slider Area End -->
-      <!--? Pricing Card Start -->
-      <section class="pricing-card-area pricing-card-area2 fix">
+      <!-- Hero Area End-->
+
+      <!--? Blog Area Start-->
+      <section class="blog_area section-padding">
         <div class="container">
           <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
-              <div class="single-card text-center mb-30">
-                <div class="card-top">
-                  <img src="/img/icon/price1.svg" alt="" />
-                  <h4>첫번째 스탭</h4>
-                </div>
-                <div class="card-bottom">
-                  <ul>
-                    <li>셀카, 풍경 사진등을 준비하기</li>
-                    <li>파일을 업로드하기</li>
-                  </ul>
-                </div>
+            <div class="col-lg-8 mb-5 mb-lg-0">
+              <div class="blog_left_sidebar">
+                <article class="blog_item">
+                  <div class="blog_item_img">
+                    <img
+                      class="card-img rounded-0"
+                      src=""+
+                      alt=""
+                    />
+                    <input type="hidden" value="">
+                    <div class="blog_item_date">
+                      <h3>사용자 정보</h3>
+                    </div>
+                  </div>
+                  <div class="blog_details">
+                    <div class="d-inline-block">
+                      <h2 class="blog-head" style="color: #2d2d2d">
+                        <h3><%=userName%></h3>
+                      </h2>
+                    </div>
+                    <p>
+                      이메일 : <%=userEmail%>
+                    </p>
+                    <%
+                    if(pass == 0) {
+                    %>
+                    <form action="/email" method="POST">
+                        <button type="submit">인증번호 전송</button>
+                    </form>
+                    <form action="/email" method="POST">
+                        <input type="text" name="auth_code" placeholder="인증번호를 입력하세요">
+                        <button type="submit">확인</button>
+                    </form>
+                      <%
+                    }
+                    %>
+                    </div>
+                </article>
               </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
-              <div class="single-card text-center mb-30">
-                <div class="card-top">
-                  <img src="/img/icon/price2.svg" alt="" />
-                  <h4>두번째 스탭</h4>
-                </div>
-                <div class="card-bottom">
-                  <ul>
-                    <li>조금만 기다리기</li>
-                    <li>AI가 엄청 열심히 일하는 중입니다~~^^</li>
+
+
+            <div class="col-lg-4">
+              <div class="blog_right_sidebar">
+                <aside class="single_sidebar_widget search_widget">
+                  <form action="/" method="GET">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
+                  </form>
+                  <form action="/getcomm" method="GET">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">커뮤니티</button>
+                  </form>
+                  <form action="/create" method="GET">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글쓰기</button>
+                  </form>
+                </aside>
+                <aside class="single_sidebar_widget tag_cloud_widget">
+                  <h4 class="widget_title" style="color: #2d2d2d">
+                    Tag Clouds
+                  </h4>
+                  <ul class="list">
+                    <li>
+                      <a href="#">project</a>
+                    </li>
+                    <li>
+                      <a href="#">love</a>
+                    </li>
+                    <li>
+                      <a href="#">technology</a>
+                    </li>
+                    <li>
+                      <a href="#">travel</a>
+                    </li>
+                    <li>
+                      <a href="#">restaurant</a>
+                    </li>
+                    <li>
+                      <a href="#">life style</a>
+                    </li>
+                    <li>
+                      <a href="#">design</a>
+                    </li>
+                    <li>
+                      <a href="#">illustration</a>
+                    </li>
                   </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-10">
-              <div class="single-card text-center mb-30">
-                <div class="card-top">
-                  <img src="/img/icon/price3.svg" alt="" />
-                  <h4>세번째 스탭</h4>
-                </div>
-                <div class="card-bottom">
-                  <ul>
-                    <li>변환된 사진을 다운로드하기</li>
-                    <li>변환된 사진을 커뮤니티 서비스에 공유하기</li>
-                  </ul>
-                </div>
+                </aside>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <!-- Pricing Card End -->
-
-
-
-
-
-      <!--? About-1 Area Start -->
-      <div class="about-area1 section-padding40">
-        <div class="container">
-          <div class="row align-items-center justify-content-between">
-            <div class="col-xl-5 col-lg-5 col-md-8 col-sm-10">
-              <!-- about-img -->
-              <div class="about-img">
-                <img src="/img/gallery/about1.png" alt="" />
-              </div>
-            </div>
-            <div class="col-xl-7 col-lg-7 col-md-12">
-              <div class="about-caption">
-                <!-- Section Tittle -->
-                <div class="section-tittle section-tittle2 mb-30">
-                  <h2>AI 사진 변환</h2>
-                </div>
-                <form action="/" method="POST">
-                <div class="blog_details">
-                  <h2>이름</h2>
-                  <input name="userEmail" style="text-align:center; width:300px; height:23px;" value="<%=user%>" readonly><br/><br/>
-                  <div class="box-file-input">
-                    <label>
-                      <input type="file" name="filename" class="file-input" accept="image/*" id="filename">
-                    </label>
-                    <span class="filename">
-                      파일을 선택해주세요.
-                    </div><br/>
-                  <h3>사진 옵션</h3>
-                  <input type="radio" name="imgae_chk" value="화가" checked="checked"> 화가&nbsp;&nbsp;
-                  <input type="radio" name="imgae_chk" value="디즈니"> 디즈니&nbsp;&nbsp;
-                  <input type="radio" name="imgae_chk" value="고흐"> 고흐&nbsp;&nbsp;
-                  <br/>
-                  <br/>
-                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">AI 변환 시작</button>
-                </div>
-              </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <style>
-        .box-file-input label{
-          display:inline-block;
-          background:#23a3a7;
-          color:#fff;
-          padding:0px 15px;
-          line-height:35px;
-          cursor:pointer;
-        }
-        
-        .box-file-input label:after{
-          content:"파일등록";
-        }
-        
-        .box-file-input .file-input{
-          display:none;
-        }
-        
-        .box-file-input .filename{
-          display:inline-block;
-          padding-left:10px;
-        }
-      </style>
-      <script>
-        $(document).on("change", ".file-input", function(){
-         
-          $filename = $(this).val();
-      
-          if($filename == "")
-            $filename = "파일을 선택해주세요.";
-      
-          $(".filename").text($filename);
-      
-        });
-      </script>
-
-      <!-- About-1 Area End -->
+      <!-- Blog Area End -->
     </main>
     <footer>
-      <div class="footer-wrappr" data-background="img/gallery/footer-bg.png">
+      <div class="footer-wrappr" data-background="/img/gallery/footer-bg.png">
         <div class="footer-area footer-padding">
           <div class="container">
             <div class="row d-flex justify-content-between">
@@ -416,15 +373,9 @@
 
     <!-- Date Picker -->
     <script src="/js/gijgo.min.js"></script>
-
-    <!-- Video bg -->
-    <script src="/js/jquery.vide.js"></script>
-
     <!-- Nice-select, sticky -->
     <script src="/js/jquery.nice-select.min.js"></script>
     <script src="/js/jquery.sticky.js"></script>
-    <!-- Progress -->
-    <script src="/js/jquery.barfiller.js"></script>
 
     <!-- counter , waypoint,Hover Direction -->
     <script src="/js/jquery.counterup.min.js"></script>
