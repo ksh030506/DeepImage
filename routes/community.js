@@ -88,8 +88,8 @@ app.post('/createComm', upload.single('filename'), function(req, res){
 
 app.post('/deletecomm', function(req, res){
     let data = req.body;
-    let UserSession = req.session.userEmail;
     let commid = req.body.id;
+    let UserSession = req.session.userEmail;
     let writer = data.writer;
     
     if(UserSession != writer){
@@ -101,7 +101,7 @@ app.post('/deletecomm', function(req, res){
                 console.log(err);
             }
             else {
-                res.redirect('/comm');
+                res.redirect('/getcomm');
             }
         });
     }
