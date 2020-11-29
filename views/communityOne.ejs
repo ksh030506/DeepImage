@@ -59,16 +59,7 @@
                           <li><a href="/">Home</a></li>
                           <li><a href="/packages">Packages</a></li>
                           <li><a href="/help">Help</a></li>
-                          <li>
-                            <a>Blog</a>
-                            <ul class="submenu">
-                              <li><a href="/blog">Blog</a></li>
-                              <li>
-                                <a href="/blog_details">Blog Details</a>
-                              </li>
-                              <li><a href="/elements">Element</a></li>
-                            </ul>
-                          </li>
+                          <li><a href="/community">Community</a></li>
                           <li><a href="/contact">Contact</a></li>
                           <!-- Button -->
                           <li class="button-header margin-left">
@@ -77,6 +68,10 @@
                           <li class="button-header">
                             <a href="/login" class="btn3">Sign In</a>
                           </li>
+                          <% if(user) {%>
+                            <p id="userid"><%=user%> 님 환영합니다!</p>
+                            <li class="button-header"><a href="/logout" class="btn3">로그아웃</a></li>
+                        <%}%>
                         </ul>
                       </nav>
                     </div>
@@ -133,36 +128,91 @@
           <div class="row">
             <div class="col-lg-8 posts-list">
               <div class="single-post">
+                <input name="id" type="hidden" value="<%=data.commid%>"/>
+                <h2>
+                  <input id="title" name="title" style="text-align:center; width:500px; height:40px;" value="<%=data.title%>"></input>
+                </h2>
+                <hr/>
                 <div class="feature-img">
-                  <img
-                    class="img-fluid"
-                    src="/img/blog/single_blog_1.png"
-                    alt=""
-                  />
+                  <img class="img-fluid" src="/img/blog/single_blog_1.png" alt=""/>
                 </div>
-                <input name="id" value="<%=data.commid%>" readonly/>
-                <div class="blog_details">
-                  <h2 style="color: #2d2d2d">
-                    <input id="title" name="title" value="<%=data.title%>"></input>
-                  </h2>
-                  <ul class="blog-info-link mt-3 mb-4">
-                    <li>
-                      <%=data.comm_time%>
-                    </li>
-                  </ul>
-                  <input name="writer" value="<%=data.userEmail%>" readonly><br/>
-                  <input id="content" class="excert" name="content" value="<%=data.content%>"></input>
-                </div>
+                <hr/>
+                  <h2>등록 날짜</h2>
+                  <input id="comm_time" name="comm_time" style="text-align:center; width:250px; height:23px;" value="<%=data.comm_time%>" readonly></input><br/><br/>
+                  <h2>작성자</h2>
+                  <input name="writer" style="text-align:center; width:300px; height:23px;" value="<%=data.userEmail%>" readonly></input><br/><br/>
+                  <h2>내용</h2>
+                  <textarea class="excert" name="content" cols="80" rows="10"><%=data.content%></textarea><br/><br/>
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 수정</button>
               </div>
+            </form>
+            <form action="/deletecomm" method="post">
+              <input type="hidden" name="id" value="<%=data.commid%>"/>
+              <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 삭제</button>
+            </form>
+            <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">목록</button>
+          </div>
+          <div class="col-lg-4">
+            <div class="blog_right_sidebar">
+              <aside class="single_sidebar_widget search_widget">
+                <form action="/search" method="POST">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search Keyword"
+                        onfocus="this.placeholder = ''"
+                        onblur="this.placeholder = 'Search Keyword'"
+                      />
+                    </div>
+                  </div>
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button><br/>
+                </form>
+                <form action="/getcomm" method="GET">
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
+                </form>
+                <form action="/create" method="GET">
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글쓰기</button>
+                </form>
+              </aside>
+              <aside class="single_sidebar_widget tag_cloud_widget">
+                <h4 class="widget_title" style="color: #2d2d2d">
+                  Tag Clouds
+                </h4>
+                <ul class="list">
+                  <li>
+                    <a href="#">project</a>
+                  </li>
+                  <li>
+                    <a href="#">love</a>
+                  </li>
+                  <li>
+                    <a href="#">technology</a>
+                  </li>
+                  <li>
+                    <a href="#">travel</a>
+                  </li>
+                  <li>
+                    <a href="#">restaurant</a>
+                  </li>
+                  <li>
+                    <a href="#">life style</a>
+                  </li>
+                  <li>
+                    <a href="#">design</a>
+                  </li>
+                  <li>
+                    <a href="#">illustration</a>
+                  </li>
+                </ul>
+              </aside>
+            </div>
           </div>
         </div>
       </section>
-      <button id="updatebtn" type="submit">글 수정</button>
-    </form>
-    <form action="/deletecomm" method="post">
-      <input type="hidden" name="id" value="<%=data.commid%>"/>
-      <button type="submit">글 삭제</button>
-    </form>
+    
       <%
       }
       %>

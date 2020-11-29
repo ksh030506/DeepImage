@@ -121,7 +121,7 @@ app.post('/commupdate', function(req, res){
 app.get('/getcomm', function(req, res){
     connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM Net.community`, function(err, rows, fields){
         if(err) console.log(err);
-        res.render('community', {title: ' 게시판 리스트', rows: rows});
+        res.render('community', {title: ' 게시판 리스트', rows: rows, user:req.session.userEmail});
     });
 });
 
@@ -134,7 +134,7 @@ app.get('/getcomm/:id', function(req, res){
         if(err){
             console.log(err);
         } else {
-            res.render('communityOne', {rows: rows});
+            res.render('communityOne', {rows: rows, user:req.session.userEmail});
         }
     });
 });
@@ -146,7 +146,7 @@ app.post('/search', function(req, res){
 
     connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time FROM community where title like ? or userEmail like ?`, [querykeyword, querykeyword], function(err, rows, fields){
         if(err) console.log(err);
-        res.render('community', {rows:rows});
+        res.render('community', {rows:rows, user:req.session.userEmail});
     });
 });
 
