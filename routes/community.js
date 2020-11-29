@@ -132,7 +132,7 @@ app.post('/commupdate', function(req, res){
     });
 
 app.get('/getcomm', function(req, res){
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM Net.community`, function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM Net.community order by commid DESC`, function(err, rows, fields){
         if(err) console.log(err);
         res.render('community', {title: ' 게시판 리스트', rows: rows, user:req.session.userEmail});
     });
@@ -157,7 +157,7 @@ app.post('/search', function(req, res){
     let searchkeyword = data.search;
     let querykeyword = '%' + searchkeyword + '%';
 
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where title like ? or userEmail like ?`, [querykeyword, querykeyword], function(err, rows, fields){
+    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where title like ? or userEmail like ? order by commid DESC`, [querykeyword, querykeyword], function(err, rows, fields){
         if(err) console.log(err);
         res.render('community', {rows:rows, user:req.session.userEmail});
     });
