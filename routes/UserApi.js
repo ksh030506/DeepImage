@@ -7,12 +7,13 @@ var cookieParser = require('cookie-parser');
 var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "sanghyeon030506@gmail.com",
-        pass: "ksh03050621!"
+        user: process.env.email_auth,
+        pass: process.env.email_auth_pass
     },
     tls: {
         rejectUnauthorized: false
