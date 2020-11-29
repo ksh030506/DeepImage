@@ -25,8 +25,8 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.get('/packages',function(req,res){
-    res.render('packages', {user:req.session.userEmail});
+app.get('/imageChage',function(req,res){
+    res.render('imageChage', {user:req.session.userEmail});
 });
 app.get('/help',function(req,res){
     res.render('help', {user:req.session.userEmail});

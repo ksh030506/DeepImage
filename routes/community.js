@@ -5,8 +5,6 @@ const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const dbconfig = require('../config/dbconfig');
-const { user } = require('../config/dbconfig');
-const e = require('express');
 const fs = require('fs');
 
 const multer = require('multer');
