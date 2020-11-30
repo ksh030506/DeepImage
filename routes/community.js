@@ -66,16 +66,27 @@ app.post('/createComm', upload.single('filename'), function(req, res){
     let title = data.title;
     let content = data.content;
     let writer = req.session.userEmail;
-    let image = req.file.filename;
+    if(req.file){
+        let image = req.file.filename;
+    }
     
 
     if(title && content && writer){
-        connection.query('insert into community(userEmail, title, content, Img) VALUES(?, ?, ?, ?)', [writer ,title, content, image], function(err, rows, fields){
-            if(err){
-                console.log(err);
+        connection.query('select email_auth from user where userEmail = ?', [writer], function(err, rows, fields){
+            if(err) console.log(err);
+            let email_auth = rows[0].email_auth;
+            if(email_auth == 1){
+                connection.query('insert into community(userEmail, title, content, Img) VALUES(?, ?, ?, ?)', [writer ,title, content, image], function(err, rows, fields){
+                    if(err){
+                        console.log(err);
+                    }
+                    else {
+                        res.redirect('/getcomm');
+                    }
+                });
             }
             else {
-                res.redirect('/getcomm');
+                res.redirect('/mypage');
             }
         });
     } else {

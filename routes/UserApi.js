@@ -6,6 +6,19 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+const smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: process.env.email_auth,
+        pass: process.env.email_auth_pass
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+  });
 
 var app = express();
 var dbOptions = dbconfig;
@@ -64,6 +77,59 @@ app.get('/register', function(req, res){
         res.redirect('/');
     }
 });
+
+app.get('/mypage', function(req, res){
+    let Session = req.session.userEmail;
+    if(!Session){
+        res.redirect('/login');
+    }else {
+        connection.query(`select * from user where userEmail = ?`, [Session], function(err, rows, fields){
+            if(err) console.log(err);
+            let userEmail = rows[0].userEmail;
+            let userName = rows[0].userName;
+            let email_auth = rows[0].email_auth;
+            res.render('mypage', {user:req.session.userEmail, userEmail : userEmail, userName : userName, pass:email_auth});
+        });
+    }
+});
+
+// 숫자
+let authNum = Math.random().toString().substr(2,6);
+
+let emailTemplete;
+ejs.renderFile('views/emailtemplete.ejs', {authCode : authNum}, function (err, data) {
+  if(err) console.log(err);
+  emailTemplete = data;
+});
+
+app.post('/email', async(req, res) => {
+    let Session = req.session.userEmail;
+    let data = req.body;
+    let auth_code = data.auth_code;
+
+    if(auth_code == authNum){
+        connection.query(`update Net.user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
+            if(err) console.log(err);
+            res.redirect('/mypage');
+        });
+    } else {
+        const mailOptions = {
+            from: "sanghyeon030506@gmail.com",
+            to: req.session.userEmail,
+            subject: "이메일 인증",
+            html : emailTemplete
+          };
+    
+          await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+            if(error) console.log(error);
+            console.log("이메일 보내기 완료");
+            res.redirect('/mypage');
+            smtpTransport.close();
+        });
+    }
+});
+
+
 
 //로그인 API
 app.post('/login', function(req, res){
