@@ -1,35 +1,11 @@
 var express = require('express');
-var mysql = require('mysql');
+var app = express();
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
-
-const smtpTransport = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-        user: process.env.email_auth,
-        pass: process.env.email_auth_pass
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
-
-var app = express();
 var dbOptions = dbconfig;
 
-var connection = mysql.createConnection(dbOptions);
-connection.query('USE ' + dbconfig.database);
-
 app.set('view engine', 'ejs');
-app.set('views', './views');
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
     secret: process.env.sessiohn_secret_key,
     store: new MySQLStore(dbOptions),
@@ -37,155 +13,23 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.get('/',function(req,res){
-    if(!req.session.userEmail){
-        res.render('index', {user: req.session.userEmail});
-    }
-    else {
-        res.render('index', {user: req.session.userEmail});
-    }
-});
+const indexpage = require('./auth.Ctrl/indexpage');
+const loginpage = require('./auth.Ctrl/loginpage');
+const registerpage = require('./auth.Ctrl/registerpage');
+const logout = require('./auth.Ctrl/logout');
+const mypage = require('./auth.Ctrl/mypage');
+const email_send = require('./auth.Ctrl/email');
+const login = require('./auth.Ctrl/login');
+const sing = require('./auth.Ctrl/sing');
 
-app.get('/login', function(req, res){
-    if(!req.session.userEmail){
-        var userId = "";
-        if(req.cookies['loginId'] !== undefined){
-            userId = req.cookies['loginId'];
-            res.render('login', {userId: userId});
-        }
-        else {
-            res.render('login', {userId: ""});
-        }
-        
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/logout', function(req, res){
-    req.session.destroy(function(err){
-        res.redirect('/');
-    });
-});
-
-app.get('/register', function(req, res){
-    if(!req.session.userEmail){
-        res.render('register');
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
-app.get('/mypage', function(req, res){
-    let Session = req.session.userEmail;
-    if(!Session){
-        res.redirect('/login');
-    }else {
-        connection.query(`select * from user where userEmail = ?`, [Session], function(err, rows, fields){
-            if(err) console.log(err);
-            let userEmail = rows[0].userEmail;
-            let userName = rows[0].userName;
-            let email_auth = rows[0].email_auth;
-            res.render('mypage', {user:req.session.userEmail, userEmail : userEmail, userName : userName, pass:email_auth});
-        });
-    }
-});
-
-// 숫자
-let authNum = Math.random().toString().substr(2,6);
-
-let emailTemplete;
-ejs.renderFile('views/emailtemplete.ejs', {authCode : authNum}, function (err, data) {
-  if(err) console.log(err);
-  emailTemplete = data;
-});
-
-app.post('/email', async(req, res) => {
-    let Session = req.session.userEmail;
-    let data = req.body;
-    let auth_code = data.auth_code;
-
-    if(auth_code == authNum){
-        connection.query(`update Net.user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
-            if(err) console.log(err);
-            res.redirect('/mypage');
-        });
-    } else {
-        const mailOptions = {
-            from: process.env.email_auth,
-            to: req.session.userEmail,
-            subject: "이메일 인증",
-            html : emailTemplete
-          };
-    
-          await smtpTransport.sendMail(mailOptions, (error, responses) =>{
-            if(error) console.log(error);
-            console.log("이메일 보내기 완료");
-            res.redirect('/mypage');
-            smtpTransport.close();
-        });
-    }
-});
-
-
-
-//로그인 API
-app.post('/login', function(req, res){
-    var data = req.body;
-    var RUserEmail = data.email;
-    var RUserPassword = data.password;
-
-    connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
-        if(err){
-            console.log(err);
-        }
-        if(!rows[0]){
-            return res.render('login', {message: 'please check your id'});
-        }
-
-        var DUserEmail = rows[0]['userEmail'];
-        var DuserPassword = rows[0]['password'];
-
-        if(DuserPassword == RUserPassword){
-            console.log("로그인 성공");
-            if(req.body.rememberId === "checked"){
-                console.log("아이디 저장 체크!");
-                res.cookie('loginId', RUserEmail);
-            }
-            req.session.userEmail = DUserEmail;
-            req.session.save(function(){
-                return res.redirect('/');
-            });
-        }
-        else {
-            console.log("로그인 실패");
-        }
-    });
-});
-
-//회원가입 API
-app.post('/sing', function(req, res){
-    var data = req.body;
-    let password1 = data.password;
-    var password2 = data.Cpassword;
-    var param = [data.email, data.name, data.password];
-
-    if(password1 == password2) {
-        connection.query('insert into user values(?, ?, ?)', param, function(err, rows, fields){
-            if(!err){
-                console.log("회원가입 성공");
-                res.redirect('/');
-            } else {
-                res.render('register');
-            }
-        });
-    }
-    else {
-        res.render('register');
-    }
-});
+app.get('/', indexpage);
+app.get('/login', loginpage);
+app.get('/logout', logout);
+app.get('/register', registerpage);
+app.get('/mypage', mypage);
+app.post('/email', email_send);
+app.post('/login', login);
+app.post('/sing', sing);
 
 
 module.exports = app;
