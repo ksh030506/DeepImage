@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var Community = require('./routes/community');
-var UserApi = require('./routes/UserApi');
+var UserApi = require('./routes/auth');
 var DbTest = require('./routes/dbTest');
 var Other = require('./routes/Other');
 

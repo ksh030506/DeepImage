@@ -18,7 +18,7 @@ const smtpTransport = nodemailer.createTransport({
     tls: {
         rejectUnauthorized: false
     }
-  });
+});
 
 var app = express();
 var dbOptions = dbconfig;

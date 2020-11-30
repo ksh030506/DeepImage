@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
       cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
     }
 });
-  var upload = multer({ storage: storage });
+var upload = multer({ storage: storage });
 
 var app = express();
 var dbOptions = dbconfig;
