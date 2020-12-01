@@ -1,17 +1,15 @@
+require('dotenv').config();
 var express = require('express');
 var app = express();
+var mysql = require('mysql');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
 var dbOptions = dbconfig;
 
-app.set('view engine', 'ejs');
-app.use(session({
-    secret: process.env.sessiohn_secret_key,
-    store: new MySQLStore(dbOptions),
-    resave: false,
-    saveUninitialized: false
-}));
 
 const indexpage = require('./auth.Ctrl/indexpage');
 const loginpage = require('./auth.Ctrl/loginpage');
@@ -22,8 +20,24 @@ const email_send = require('./auth.Ctrl/email');
 const login = require('./auth.Ctrl/login');
 const sing = require('./auth.Ctrl/sing');
 
+
+
+var connection = mysql.createConnection(dbOptions);
+connection.query('USE ' + dbconfig.database);
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+    secret: process.env.sessiohn_secret_key,
+    store: new MySQLStore(dbOptions),
+    resave: false,
+    saveUninitialized: false
+}));
+
 app.get('/', indexpage);
-app.get('/login', loginpage);
+app.get('/loginpage', loginpage);
 app.get('/logout', logout);
 app.get('/register', registerpage);
 app.get('/mypage', mypage);

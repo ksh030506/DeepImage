@@ -25,19 +25,41 @@ const sing = function(req, res){
     var password2 = data.Cpassword;
     var param = [data.email, data.name, data.password];
 
-    if(password1 == password2) {
-        connection.query('insert into user(userEmail, userName, password) values(?, ?, ?)', param, function(err, rows, fields){
-            if(!err){
-                console.log("회원가입 성공");
-                res.redirect('/');
+
+    if(data.name && data.email && password1 && password2){
+        connection.query(`select userEmail from user where userEmail = ?`, [data.email], function(err, rows, fields){
+            if(err) console.log(err);
+            if(!rows[0]) {
+                if(password1 == password2) {
+                    connection.query('insert into user(userEmail, userName, password) values(?, ?, ?)', param, function(err, rows, fields){
+                        if(!err){
+                            res.json({
+                                "msg": "회원가입성공"
+                            });
+                        } else {
+                            res.json({
+                                "msg": "회원가입실패"
+                            });
+                        }
+                    });
+                }
+                else {
+                    res.json({
+                        "msg": "비밀번호확인틀림"
+                    });
+                }
             } else {
-                res.render('register');
+                res.json({
+                    "msg": "이메일중복"
+                });
             }
         });
+    } else {
+        res.json({
+            "msg": "값빔"
+        });
     }
-    else {
-        res.render('register');
-    }
+    
 };
 
 module.exports = sing;

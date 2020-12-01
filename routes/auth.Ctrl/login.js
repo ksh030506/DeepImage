@@ -23,33 +23,50 @@ const login = function(req, res){
     var data = req.body;
     var RUserEmail = data.email;
     var RUserPassword = data.password;
+    var rememberId = data.rememberId;
 
-    connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
-        if(err){
-            console.log(err);
-        }
-        if(!rows[0]){
-            return res.render('login', {message: 'please check your id'});
-        }
-
-        var DUserEmail = rows[0]['userEmail'];
-        var DuserPassword = rows[0]['password'];
-
-        if(DuserPassword == RUserPassword){
-            console.log("로그인 성공");
-            if(req.body.rememberId === "checked"){
-                console.log("아이디 저장 체크!");
-                res.cookie('loginId', RUserEmail);
+    if(RUserEmail && RUserPassword) {
+        connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
+            if(err){
+                console.log(err);
             }
-            req.session.userEmail = DUserEmail;
-            req.session.save(function(){
-                return res.redirect('/');
-            });
-        }
-        else {
-            console.log("로그인 실패");
-        }
-    });
+            if(!rows[0]){
+                res.json({
+                    "msg": '아이디틀림'
+                });
+            }
+            else {
+                var DUserEmail = rows[0]['userEmail'];
+                var DuserPassword = rows[0]['password'];
+    
+                if(DuserPassword == RUserPassword){
+                    console.log("로그인 성공");
+                    
+                    if(rememberId === "checked"){
+                        console.log("아이디 저장 체크!");
+                        res.cookie('loginId', RUserEmail);
+                    }
+                    req.session.userEmail = DUserEmail;
+                    req.session.save(function(){
+                        res.json({
+                            "msg": 'success',
+                            "user": req.session.userEmail
+                        });
+                    });
+                }
+                else {
+                    res.json({
+                        "msg": '비밀번호틀림'
+                    });
+                }
+            }
+        });
+    } else {
+        res.json({
+            "msg": '값이빔'
+        });
+    }
+        
 };
 
 module.exports = login;

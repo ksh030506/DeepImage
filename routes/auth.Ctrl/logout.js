@@ -15,7 +15,9 @@ app.use(session({
 
 const logout = function(req, res){
     req.session.destroy(function(err){
-        res.redirect('/');
+        res.json({
+            'msg': '로그아웃완료'
+        });
     });
 };
 

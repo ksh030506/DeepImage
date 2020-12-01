@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+
     <!-- ? Preloader Start -->
     <div id="preloader-active">
       <div class="preloader d-flex align-items-center justify-content-center">
@@ -49,20 +50,20 @@
           <h2>Login Here</h2>
           <div class="form-input">
             <label for="name">Email</label>
-            <input type="email" id="id" name="email" value="<%=userId%>" placeholder="Email" />
+            <input type="email" id="email" name="email" value="<%=userId%>" placeholder="Email" />
           </div>
           <div class="form-input">
             <label for="name">Password</label>
-            <input type="password" id="pass" name="password" placeholder="Password" />
+            <input type="password" id="password" name="password" placeholder="Password" />
           </div>
 
             <div class="form-input pt-30">
               <label for="name">Email 저장</label>
-              <input type="checkbox" value="checked" name="rememberId">
+              <input type="checkbox" id="rememberId" value="checked" name="rememberId">
             </div>
 
           <div class="form-input pt-30">
-            <input type="submit" id="aaa" name="submit" value="login" />
+            <input type="submit" id="login_submit" name="login_submit" value="login" />
           </div>
 
           <!-- Forget Password -->
@@ -117,5 +118,50 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+      var main = {
+        init : function () {
+            var _this = this;
+            $('#login_submit').on('click', function () {
+                _this.login_submit();
+            });
+        },
+        login_submit : function () {
+          var data = {
+            email: $('#email').val(),
+            password: $('#password').val(),
+            rememberId: $('input:checkbox[id="rememberId"]').val()
+          };
+
+          var data_json = JSON.stringify(data);
+    
+          $.ajax({
+            url: 'http://localhost:8080/login',
+            type: 'POST',
+            contentType:'application/json; charset=utf-8',
+            data: data_json
+          }).done(function(data){
+            if(data.msg == 'success'){
+              alert(data.user + '님 환영합니다.');
+              window.location.href = '/';
+            } else if(data.msg == '비밀번호틀림'){
+              alert("비밀번호가 올바르지 않습니다.");
+              window.location.href = '/loginpage';
+            } else if(data.msg == '아이디틀림'){
+              alert("아이디가 올바르지 않습니다.");
+              window.location.href = '/loginpage';
+            } else if(data.msg == '값이빔'){
+              alert("값을 모두 입력해주세요");
+              window.location.href = '/loginpage';
+            }
+          }).fail(function(data){
+            alert("로그인 실패");
+            window.location.href = '/loginpage';
+          });
+        }
+    };
+    main.init();
+    </script>
+    
   </body>
 </html>
