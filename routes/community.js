@@ -6,14 +6,15 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const dbconfig = require('../config/dbconfig');
 const fs = require('fs');
+require('dotenv').config();
 
 const multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './upload/image') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+      cb(null, process.env.multer_storage_destination_dir); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname) // cb 콜백함수를 통해 전송된 파일 이름 설정
+      cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
     }
 });
   var upload = multer({ storage: storage });
@@ -28,7 +29,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
-    secret: '!@#$ﬁ^&',
+    secret: process.env.sessiohn_secret_key,
     store: new MySQLStore(dbOptions),
     resave: false,
     saveUninitialized: false
@@ -171,8 +172,5 @@ app.post('/search', function(req, res){
         res.render('community', {rows:rows, user:req.session.userEmail});
     });
 });
-
-
-
 
 module.exports = app;

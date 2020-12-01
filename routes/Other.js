@@ -5,9 +5,7 @@ var MySQLStore = require('express-mysql-session')(session);
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var dbconfig = require('../config/dbconfig');
-const { user } = require('../config/dbconfig');
-const e = require('express');
-const { truncate } = require('fs');
+require('dotenv').config();
 
 var app = express();
 var dbOptions = dbconfig;
@@ -19,7 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
-    secret: '!@#$ﬁ^&',
+    secret: process.env.sessiohn_secret_key,
     store: new MySQLStore(dbOptions),
     resave: false,
     saveUninitialized: false

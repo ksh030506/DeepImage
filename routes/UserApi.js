@@ -31,7 +31,7 @@ app.set('views', './views');
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
-    secret: '!@#$ﬁ^&',
+    secret: process.env.sessiohn_secret_key,
     store: new MySQLStore(dbOptions),
     resave: false,
     saveUninitialized: false
@@ -114,7 +114,7 @@ app.post('/email', async(req, res) => {
         });
     } else {
         const mailOptions = {
-            from: "sanghyeon030506@gmail.com",
+            from: process.env.email_auth,
             to: req.session.userEmail,
             subject: "이메일 인증",
             html : emailTemplete
@@ -168,16 +168,23 @@ app.post('/login', function(req, res){
 //회원가입 API
 app.post('/sing', function(req, res){
     var data = req.body;
+    let password1 = data.password;
+    var password2 = data.Cpassword;
     var param = [data.email, data.name, data.password];
 
-    connection.query('insert into user values(?, ?, ?)', param, function(err, rows, fields){
-        if(!err){
-            console.log("회원가입 성공");
-            res.redirect('/');
-        } else {
-            res.render('register');
-        }
-    });
+    if(password1 == password2) {
+        connection.query('insert into user values(?, ?, ?)', param, function(err, rows, fields){
+            if(!err){
+                console.log("회원가입 성공");
+                res.redirect('/');
+            } else {
+                res.render('register');
+            }
+        });
+    }
+    else {
+        res.render('register');
+    }
 });
 
 
