@@ -53,15 +53,15 @@
 
           <div class="form-input">
             <label for="name">Full name</label>
-            <input type="text" name="name" placeholder="Full name" />
+            <input type="text" name="name" id="name" placeholder="Full name" />
           </div>
           <div class="form-input">
             <label for="name">Email Address</label>
-            <input type="email" name="email" placeholder="Email Address" />
+            <input type="email" name="email" id="email" placeholder="Email Address" />
           </div>
           <div class="form-input">
             <label for="name">Password</label>
-            <input type="password" name="password" placeholder="Password" />
+            <input type="password" name="password" id="password" placeholder="Password" />
           </div>
           
           <div class="form-input">
@@ -69,11 +69,12 @@
             <input
               type="password"
               name="Cpassword"
+              id="Cpassword"
               placeholder="Confirm Password"
             />
           </div>
           <div class="form-input pt-30">
-            <input type="submit" name="submit" value="Registration" id="bu" />
+            <input type="submit" name="register_btn" value="Registration" id="register_btn" />
           </div>
           <!-- Forget Password -->
           <a href="/loginpage" class="registration">login</a>
@@ -125,5 +126,53 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+      var main = {
+        init : function () {
+            var _this = this;
+            $('#register_btn').on('click', function () {
+                _this.register_btn();
+            });
+        },
+        register_btn : function () {
+          var data = {
+            name: $('#name').val(),
+            email: $('#email').val(),
+            password: $('#password').val(),
+            Cpassword: $('#Cpassword').val()
+          };
+
+          var data_json = JSON.stringify(data);
+    
+          $.ajax({
+            url: 'http://localhost:8080/sing',
+            type: 'POST',
+            contentType:'application/json; charset=utf-8',
+            data: data_json
+          }).done(function(data){
+            if(data.msg == '회원가입성공'){
+              alert(data.user + '회원가입 성공');
+              window.location.href = '/';
+            } else if(data.msg == '회원가입실패'){
+              alert("회원가입실패");
+              window.location.href = '/register';
+            } else if(data.msg == '비밀번호확인틀림'){
+              alert("Confirm Password를 다시 입력해주세요.");
+              window.location.href = '/register';
+            } else if(data.msg == '값빔'){
+              alert("값을 모두 입력해주세요");
+              window.location.href = '/register';
+            } else if(data.msg == '이메일중복'){
+              alert("이미 사용중인 이메일 입니다.");
+              window.location.href = '/register';
+            }
+          }).fail(function(data){
+            alert("실패");
+            window.location.href = '/register';
+          });
+        }
+    };
+    main.init();
+    </script>
   </body>
 </html>

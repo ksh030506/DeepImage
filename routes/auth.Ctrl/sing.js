@@ -34,6 +34,7 @@ const sing = function(req, res){
                     connection.query('insert into user(userEmail, userName, password) values(?, ?, ?)', param, function(err, rows, fields){
                         if(!err){
                             res.json({
+                                "user": data.email,
                                 "msg": "회원가입성공"
                             });
                         } else {
