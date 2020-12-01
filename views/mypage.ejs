@@ -151,9 +151,10 @@
                     if(pass == 0) {
                     %>
                     <form action="/email" method="POST">
-                        <input type="text" name="auth_code" style="width:200px; height:50px;" placeholder="인증번호를 입력하세요">
-                        <button class="aaa">인증번호 전송</button><br/><br/>
-                        <button class="bbb">확인</button>
+                        <input type="text" name="auth_code" id="auth_code" style="width:200px; height:50px;" placeholder="인증번호를 입력하세요">
+                        <button class="aaa" name="email_btn" id="email_btn">인증번호 전송</button>
+                        <br/><br/>
+                        <button class="bbb" name="email_chk" id="email_chk">확인</button>
                     </form>
                       <%
                     }
@@ -412,5 +413,48 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
+    <!-- <script>
+      var main = {
+        init : function () {
+            var _this = this;
+            $('#email_chk').on('click', function () {
+              _this.email_chk();
+          });
+        },
+        email_chk : function () {
+
+          //ar data = {
+           // userEmail: "<%=userEmail%>",
+           // auth_code: $('#auth_code').val()
+          //}
+
+          //var data_json = JSON.stringify(data);
+
+         $.ajax({
+            url: 'http://localhost:8080/email',
+            type: 'POST',
+            //contentType:'application/json; charset=utf-8',
+            //data: data_json
+          }).done(function(data){
+            if(data.msg == '값빔'){
+              alert("인증번호를 입력해주세요");
+              window.location.href = '/mypage';
+            }
+            else if(data.msg == '이메일인증성공'){
+              alert("인증 성공");
+              window.location.href = '/mypage';
+            }
+          }).fail(function(data){
+            alert("실패");
+            window.location.href = '/mypage';
+          });
+        }
+    };
+    main.init();
+    </script> -->
+
+
+
+
   </body>
 </html>

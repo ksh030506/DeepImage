@@ -48,26 +48,35 @@ const email_send = async (req, res) => {
     let data = req.body;
     let auth_code = data.auth_code;
 
-    if(auth_code == authNum){
-        connection.query(`update Net.user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
-            if(err) console.log(err);
-            res.redirect('/mypage');
-        });
-    } else {
-        const mailOptions = {
-            from: process.env.email_auth,
-            to: req.session.userEmail,
-            subject: "이메일 인증",
-            html : emailTemplete
-          };
+    // if(auth_code){
+        if(auth_code == authNum){
+            connection.query(`update Net.user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
+                if(err) console.log(err);
+                res.redirect('/mypage');
+                // res.json({
+                //     "msg": "이메일인증성공"
+                // });
+            });
+        } else {
+            const mailOptions = {
+                from: process.env.email_auth,
+                to: req.session.userEmail,
+                subject: "이메일 인증",
+                html : emailTemplete
+              };
+        
+              await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+                if(error) console.log(error);
+                console.log("이메일 보내기 완료");
+                res.redirect('/mypage');
+                // res.render('mypage', {user:req.session.userEmail, userEmail : userEmail, userName : userName, pass:email_auth, email_send: true});
+                smtpTransport.close();
+            });
+        }
+    // } else {
+    //     res.redirect('/mypage');
+    // }
     
-          await smtpTransport.sendMail(mailOptions, (error, responses) =>{
-            if(error) console.log(error);
-            console.log("이메일 보내기 완료");
-            res.redirect('/mypage');
-            smtpTransport.close();
-        });
-    }
 };
 
 module.exports = email_send;
