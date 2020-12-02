@@ -32,6 +32,8 @@ app.use(session({
     saveUninitialized: false
 }));
 
+const blog_detailspage = require('./community.Ctrl/blog_detailspage');
+
 app.get('/community', function(req, res){
     if(!req.session.userEmail){
         res.redirect('/login');
@@ -41,14 +43,7 @@ app.get('/community', function(req, res){
     }
 });
 
-app.get('/blog_details', function(req, res){
-    if(!req.session.userEmail){
-        res.redirect('/login');
-    }
-    else {
-        res.render('communityOne');
-    }
-});
+app.get('/blog_details', blog_detailspage);
 
 app.get('/create', function(req, res){
     if(!req.session.userEmail){
