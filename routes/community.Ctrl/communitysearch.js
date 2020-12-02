@@ -28,7 +28,13 @@ const communitysearch = function(req, res){
 
     connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where title like ? or userEmail like ? order by commid DESC`, [querykeyword, querykeyword], function(err, rows, fields){
         if(err) console.log(err);
-        res.render('community', {rows:rows, user:req.session.userEmail});
+        if(!rows[0]){
+            res.json({
+                "msg": "없음"
+            });
+        } else {
+            res.render('community', {rows:rows, user:req.session.userEmail});
+        }
     });
 };
 

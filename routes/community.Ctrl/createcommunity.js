@@ -41,12 +41,18 @@ const createcommunity = function(req, res){
                         console.log(err);
                     }
                     else {
-                        res.redirect('/getcomm');
+                        res.json({
+                            "msg": "글생성"
+                        });
+                        //res.redirect('/getcomm');
                     }
                 });
             }
             else {
-                res.redirect('/mypage');
+                res.json({
+                    "msg": "인증필요"
+                });
+                //res.redirect('/mypage');
             }
         });
     } else {

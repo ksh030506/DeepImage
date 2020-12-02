@@ -167,6 +167,7 @@
                       <input
                         type="text"
                         name="search"
+                        id="search"
                         class="form-control"
                         placeholder="Search Keyword"
                         onfocus="this.placeholder = ''"
@@ -174,7 +175,7 @@
                       />
                     </div>
                   </div>
-                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">검색</button><br/>
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="search_btn" type="submit">검색</button><br/>
                 </form>
                 <form action="/getcomm" method="GET">
                   <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
@@ -413,6 +414,9 @@
             $('#logout_btn').on('click', function () {
                 _this.logout_btn();
             });
+            $('#search_btn').on('click', function () {
+              _this.search_btn();
+            });
         },
         logout_btn : function () {
     
@@ -424,6 +428,28 @@
               if(data.msg == '로그아웃완료'){
                   alert("로그아웃 되었습니다.");
                   window.location.href = '/';
+              }
+          }).fail(function(data){
+            alert(JSON.stringify(data));
+          });
+        },
+        search_btn : function () {
+
+          var data = {
+            search: $('#search').val()
+          };
+
+          var data_json = JSON.stringify(data);
+    
+          $.ajax({
+            url: 'http://localhost:8080/search',
+            type: 'POST',
+            contentType:'application/json; charset=utf-8',
+            data: data_json
+          }).done(function(data){
+              if(data.msg == '없음'){
+                  alert("검색하신 데이터가 없습니다");
+                  window.location.href = '/getcomm';
               }
           }).fail(function(data){
             alert(JSON.stringify(data));
