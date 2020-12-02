@@ -5,19 +5,9 @@ const mysql = require('mysql');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
-const multer = require('multer');
+
 const dbconfig = require('../config/dbconfig');
 const dbOptions = dbconfig;
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, process.env.multer_storage_destination_dir); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
-    }
-});
-const upload = multer({ storage: storage });
 
 const connection = mysql.createConnection(dbOptions);
 connection.query('USE ' + dbconfig.database);
@@ -32,138 +22,25 @@ app.use(session({
     saveUninitialized: false
 }));
 
+const upload = require('../Middleware/file_load');
 const blog_detailspage = require('./community.Ctrl/blog_detailspage');
+const community = require('./community.Ctrl/communitypage');
+const getcommunity = require('./community.Ctrl/getcommunity');
+const createcommunitypage = require('./community.Ctrl/createcommunitypage');
+const createcommunity = require('./community.Ctrl/createcommunity');
+const deletecommunity = require('./community.Ctrl/deletecommunity');
+const updatecommunity = require('./community.Ctrl/updatecommunity');
+const getcommunityById = require('./community.Ctrl/getcommunityById');
+const communitysearch = require('./community.Ctrl/communitysearch');
 
-app.get('/community', function(req, res){
-    if(!req.session.userEmail){
-        res.redirect('/login');
-    }
-    else {
-        res.redirect('/getcomm');
-    }
-});
-
+app.get('/community', community);
 app.get('/blog_details', blog_detailspage);
-
-app.get('/create', function(req, res){
-    if(!req.session.userEmail){
-        res.redirect('/login');
-    }
-    else{
-        res.render('createcommunity', {user: req.session.userEmail});
-    }
-});
-
-app.post('/createComm', upload.single('filename'), function(req, res){
-    let data = req.body;
-    let title = data.title;
-    let content = data.content;
-    let writer = req.session.userEmail;
-    let image;
-    if(req.file){
-        image = req.file.filename;
-    }
-    
-
-    if(title && content && writer){
-        connection.query('select email_auth from user where userEmail = ?', [writer], function(err, rows, fields){
-            if(err) console.log(err);
-            let email_auth = rows[0].email_auth;
-            if(email_auth == 1){
-                connection.query('insert into community(userEmail, title, content, Img) VALUES(?, ?, ?, ?)', [writer ,title, content, image], function(err, rows, fields){
-                    if(err){
-                        console.log(err);
-                    }
-                    else {
-                        res.redirect('/getcomm');
-                    }
-                });
-            }
-            else {
-                res.redirect('/mypage');
-            }
-        });
-    } else {
-        console.log("값이 비어있습니다.");
-        res.redirect('/getcomm');
-    }
-});
-
-app.post('/deletecomm', function(req, res){
-    let data = req.body;
-    let commid = req.body.id;
-    let UserSession = req.session.userEmail;
-    let writer = data.writer;
-    
-    if(UserSession != writer){
-        console.log("이메일 틀림");
-        res.redirect('/getcomm');
-    } else {
-        connection.query('delete from community where commid = ?', [commid], function(err, rows, fields){
-            if(err){
-                console.log(err);
-            }
-            else {
-                res.redirect('/getcomm');
-            }
-        });
-    }
-});
-
-
-
-app.post('/commupdate', function(req, res){
-    let data = req.body;
-    let commid = data.id;
-    let UserSession = req.session.userEmail;
-    let writer = data.writer;
-    let title = data.title;
-    let content = data.content;
-        if(UserSession != writer){
-            console.log("이메일 틀림");
-            res.redirect('/getcomm');
-        }
-        else {
-            connection.query('update community set title = ?, content = ? where commid = ?', [title, content, commid], function(err, rows, fields){
-                if(err){
-                    console.log(err);
-                } else {
-                    res.redirect('/getcomm');
-                }
-            });
-        }
-    });
-
-app.get('/getcomm', function(req, res){
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM Net.community order by commid DESC`, function(err, rows, fields){
-        if(err) console.log(err);
-        res.render('community', {title: ' 게시판 리스트', rows: rows, user:req.session.userEmail});
-    });
-});
-
-
-app.get('/getcomm/:id', function(req, res){
-    let commid = req.params.id;
-    // 만약 사용자가 맞지 않다면 수정할 수 없는 텍스트를 보여주고 사용자가 맞으면 수정 가능한 텍스트를 보여준다.
-    let UserSession = req.session.userEmail;
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where commid = ?`, [commid], function(err, rows, fields){
-        if(err){
-            console.log(err);
-        } else {
-            res.render('communityOne', {rows: rows, user:req.session.userEmail});
-        }
-    });
-});
-
-app.post('/search', function(req, res){
-    let data = req.body;
-    let searchkeyword = data.search;
-    let querykeyword = '%' + searchkeyword + '%';
-
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community where title like ? or userEmail like ? order by commid DESC`, [querykeyword, querykeyword], function(err, rows, fields){
-        if(err) console.log(err);
-        res.render('community', {rows:rows, user:req.session.userEmail});
-    });
-});
+app.get('/getcomm', getcommunity);
+app.get('/create', createcommunitypage);
+app.post('/createComm', upload.single('filename'), createcommunity);
+app.post('/deletecomm', deletecommunity);
+app.post('/commupdate', updatecommunity);
+app.get('/getcomm/:id', getcommunityById);
+app.post('/search', communitysearch);
 
 module.exports = app;
