@@ -133,7 +133,7 @@
           <div class="row">
             <div class="col-lg-8 posts-list">
               <div class="single-post">
-                <input name="id" type="hidden" value="<%=data.commid%>"/>
+                <input name="commid" id="commid" type="hidden" value="<%=data.commid%>"/>
                 <h2>
                   <input id="title" name="title" style="text-align:center; width:500px; height:40px;" value="<%=data.title%>"></input>
                 </h2>
@@ -145,16 +145,16 @@
                   <h2>등록 날짜</h2>
                   <input id="comm_time" name="comm_time" style="text-align:center; width:250px; height:23px;" value="<%=data.comm_time%>" readonly></input><br/><br/>
                   <h2>작성자</h2>
-                  <input name="writer" style="text-align:center; width:300px; height:23px;" value="<%=data.userEmail%>"></input><br/><br/>
+                  <input name="writer" id="writer" style="text-align:center; width:300px; height:23px;" value="<%=data.userEmail%>"></input><br/><br/>
                   <h2>내용</h2>
-                  <textarea class="excert" name="content" cols="80" rows="10"><%=data.content%></textarea><br/><br/>
-                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 수정</button>
+                  <textarea class="excert" id="content" name="content" cols="80" rows="10"><%=data.content%></textarea><br/><br/>
+                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="update_btn">글 수정</button>
               </div>
             </form>
             <form action="/deletecomm" method="post">
               <input type="hidden" name="id" value="<%=data.commid%>"/>
               <input type="hidden" name="writer" value="<%=data.userEmail%>"/>
-              <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">글 삭제</button>
+              <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="delete_btn">글 삭제</button>
             </form>
             <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">목록</button>
           </div>
@@ -417,6 +417,12 @@
             $('#search_btn').on('click', function () {
               _this.search_btn();
             });
+            $('#update_btn').on('click', function () {
+              _this.update_btn();
+            });
+            $('#delete_btn').on('click', function () {
+              _this.delete_btn();
+            });
         },
         logout_btn : function () {
     
@@ -449,6 +455,58 @@
           }).done(function(data){
               if(data.msg == '없음'){
                   alert("검색하신 데이터가 없습니다");
+                  window.location.href = '/getcomm';
+              }
+          }).fail(function(data){
+            alert(JSON.stringify(data));
+          });
+        },
+        update_btn : function () {
+          var data = {
+            title: $('#title').val(),
+            comm_time: $('#comm_time').val(),
+            writer: $('#writer').val(),
+            content: $('#content').val()
+          };
+
+          var data_json = JSON.stringify(data);
+    
+          $.ajax({
+            url: '/commupdate',
+            type: 'POST',
+            contentType:'application/json; charset=utf-8',
+            data: data_json
+          }).done(function(data){
+              if(data.msg == '수정권한없음'){
+                  alert("글쓴이가 아니기 때문에 수정할 수 없습니다");
+                  window.location.href = '/getcomm';
+              } else if(data.msg == '수정성공'){
+                alert("수정을 성공하였습니다");
+                  window.location.href = '/getcomm';
+              }
+          }).fail(function(data){
+            alert(JSON.stringify(data));
+          });
+        },
+        delete_btn : function () {
+          var data = {
+            commid: $('#commid').val(),
+            writer: $('#writer').val()
+          };
+
+          var data_json = JSON.stringify(data);
+    
+          $.ajax({
+            url: '/deletecomm',
+            type: 'POST',
+            contentType:'application/json; charset=utf-8',
+            data: data_json
+          }).done(function(data){
+              if(data.msg == '삭제권한없음'){
+                  alert("글쓴이가 아니기 때문에 삭제할 수 없습니다");
+                  window.location.href = '/getcomm';
+              } else if(data.msg == '삭제성공'){
+                alert("삭제을 성공하였습니다");
                   window.location.href = '/getcomm';
               }
           }).fail(function(data){

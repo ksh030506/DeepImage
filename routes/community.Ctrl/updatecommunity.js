@@ -30,15 +30,21 @@ const updatecommunity = function(req, res){
     let content = data.content;
     
     if(UserSession != writer){
-        console.log("이메일 틀림");
-        res.redirect('/getcomm');
+        res.json({
+            "msg": "수정권한없음"
+        });
+        // console.log("이메일 틀림");
+        // res.redirect('/getcomm');
     }
     else {
         connection.query('update community set title = ?, content = ? where commid = ?', [title, content, commid], function(err, rows, fields){
             if(err){
                 console.log(err);
             } else {
-                res.redirect('/getcomm');
+                res.json({
+                    "msg": "수정성공"
+                });
+                // res.redirect('/getcomm');
             }
         });
     }

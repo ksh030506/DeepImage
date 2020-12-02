@@ -56,8 +56,7 @@ const createcommunity = function(req, res){
             }
         });
     } else {
-        console.log("값이 비어있습니다.");
-        res.redirect('/getcomm');
+        res.redirect('/create');
     }
 };
 
