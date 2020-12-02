@@ -151,7 +151,7 @@
             data: data_json
           }).done(function(data){
             if(data.msg == '회원가입성공'){
-              alert(data.user + '회원가입 성공');
+              alert(data.user + '님 회원가입을 축하합니다');
               window.location.href = '/';
             } else if(data.msg == '회원가입실패'){
               alert("회원가입실패");
