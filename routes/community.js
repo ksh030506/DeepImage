@@ -1,15 +1,15 @@
+require('dotenv').config();
 const express = require('express');
+const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
-const dbconfig = require('../config/dbconfig');
-const fs = require('fs');
-require('dotenv').config();
-
 const multer = require('multer');
-var storage = multer.diskStorage({
+const dbconfig = require('../config/dbconfig');
+const dbOptions = dbconfig;
+
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, process.env.multer_storage_destination_dir); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
     },
@@ -17,12 +17,9 @@ var storage = multer.diskStorage({
       cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
     }
 });
-var upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-var app = express();
-var dbOptions = dbconfig;
-
-var connection = mysql.createConnection(dbOptions);
+const connection = mysql.createConnection(dbOptions);
 connection.query('USE ' + dbconfig.database);
 
 app.set('view engine', 'ejs');
@@ -67,8 +64,9 @@ app.post('/createComm', upload.single('filename'), function(req, res){
     let title = data.title;
     let content = data.content;
     let writer = req.session.userEmail;
+    let image;
     if(req.file){
-        let image = req.file.filename;
+        image = req.file.filename;
     }
     
 
