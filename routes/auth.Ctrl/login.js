@@ -19,7 +19,7 @@ app.set('views', './views');
 var connection = mysql.createConnection(dbOptions);
 connection.query('USE ' + dbconfig.database);
 
-const login = function(req, res){
+const login = async function(req, res){
     var data = req.body;
     var RUserEmail = data.email;
     var RUserPassword = data.password;
