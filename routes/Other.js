@@ -23,14 +23,12 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.get('/imageChage',function(req,res){
-    res.render('imageChage', {user:req.session.userEmail});
-});
-app.get('/help',function(req,res){
-    res.render('help', {user:req.session.userEmail});
-});
-app.get('/contact', function(req, res){
-    res.render('contact', {user:req.session.userEmail});
-});
+const imageChagePage = require('./other.Ctrl/imageChagepage');
+const helpPage = require('./other.Ctrl/helpPage');
+const contactPage = require('./other.Ctrl/contactPage');
+
+app.get('/imageChage', imageChagePage);
+app.get('/help', helpPage);
+app.get('/contact', contactPage);
 
 module.exports = app;
