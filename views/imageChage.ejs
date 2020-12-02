@@ -446,5 +446,31 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+      var main = {
+        init : function () {
+            var _this = this;
+            $('#logout_btn').on('click', function () {
+                _this.logout_btn();
+            });
+        },
+        logout_btn : function () {
+    
+          $.ajax({
+            url: '/logout',
+            type: 'GET',
+            contentType:'application/json; charset=utf-8',
+          }).done(function(data){
+              if(data.msg == '로그아웃완료'){
+                  alert("로그아웃 되었습니다.");
+                  window.location.href = '/';
+              }
+          }).fail(function(data){
+            alert(JSON.stringify(data));
+          });
+        }
+    };
+    main.init();
+    </script>
   </body>
 </html>

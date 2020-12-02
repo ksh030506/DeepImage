@@ -66,7 +66,7 @@
                                                     <li><li class="button-header"><a class="btn3"><%=userArray[0]%> 님</a></li></li>
                                                 </ul>
                                             </li>
-                                            <li class="button-header margin-left "><a href="/logout" class="btn">로그아웃</a></li>
+                                            <li class="button-header margin-left "><a href="/logout" name="logout_btn" id="logout_btn" class="btn">로그아웃</a></li>
                                             <%}%>
                                             <% if(!user) {%>
                                             <!-- Button -->
@@ -319,7 +319,33 @@
 
 <!-- Jquery Plugins, main Jquery -->	
 <script src="/js/plugins.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js"></script><script>
+    var main = {
+      init : function () {
+          var _this = this;
+          $('#logout_btn').on('click', function () {
+              _this.logout_btn();
+          });
+      },
+      logout_btn : function () {
+  
+        $.ajax({
+          url: '/logout',
+          type: 'GET',
+          contentType:'application/json; charset=utf-8',
+        }).done(function(data){
+            if(data.msg == '로그아웃완료'){
+                alert("로그아웃 되었습니다.");
+                window.location.href = '/';
+            }
+        }).fail(function(data){
+          alert(JSON.stringify(data));
+        });
+      }
+  };
+  main.init();
+  </script>
+
 
 </body>
 </html>
