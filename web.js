@@ -1,10 +1,12 @@
 var express = require('express');
+const helmet = require('helmet');
 var app = express();
 var Community = require('./routes/community');
 var UserApi = require('./routes/auth');
 var DbTest = require('./routes/dbTest');
 var Other = require('./routes/Other');
 
+app.use(helmet());
 app.use(express.static('public'));
 app.use(express.static('upload'));
 app.use(express.json());
