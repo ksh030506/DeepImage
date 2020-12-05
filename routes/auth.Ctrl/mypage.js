@@ -24,12 +24,28 @@ const mypage = function(req, res){
     if(!Session){
         res.redirect('/login');
     }else {
-        connection.query(`select * from user where userEmail = ?`, [Session], function(err, rows, fields){
+        connection.query(`select user.userName, user.userEmail, user.register_data, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
+        [Session], function(err, rows, fields){
             if(err) console.log(err);
             let userEmail = rows[0].userEmail;
+            let register_date = rows[0].register_data;
             let userName = rows[0].userName;
+            let nickname = rows[0].nickname;
+            let phoneNumber = rows[0].phoneNumber;
+            let adress = rows[0].adress;
+            let gender = rows[0].gender;
             let email_auth = rows[0].email_auth;
-            res.render('mypage', {user:req.session.userEmail, userEmail : userEmail, userName : userName, pass:email_auth});
+            res.render('mypage', {
+                user:req.session.userEmail,
+                userEmail : userEmail,
+                userName : userName,
+                pass:email_auth,
+                register_date: register_date,
+                nickname: nickname,
+                phoneNumber: phoneNumber,
+                adress: adress,
+                gender: gender
+            });
         });
     }
 };

@@ -147,6 +147,9 @@
                     <p>
                       이메일 : <%=userEmail%>
                     </p>
+                    <p>
+                      생성 날짜 : <%=register_date%>
+                    </p>
                     <%
                     if(pass == 0) {
                     %>
@@ -162,7 +165,14 @@
                     <br/>
                     <hr/>
                     <br/>
-                    <input type="text" placeholder="닉네임">
+                    <form action="/updateuser" method="POST">
+                      <input type="text" placeholder="닉네임" name="nickname" value="<%=nickname%>"><br/>
+                      <input type="text" placeholder="전화번호" name="phone" value="<%=phoneNumber%>"><br/>
+                      <input type="text" placeholder="주소" name="address" value="<%=adress%>"><br/>
+                      <input type="text" placeholder="성별" name="gender" value="<%=gender%>"><br/>
+                      <button class="bbb" name="update_user" id="update_user">확인</button>
+                    </form>
+                    
                   </div>
                 </article>
               </div>

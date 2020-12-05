@@ -33,9 +33,14 @@ const sing = function(req, res){
                 if(password1 == password2) {
                     connection.query('insert into user(userEmail, userName, password) values(?, ?, ?)', param, function(err, rows, fields){
                         if(!err){
-                            res.json({
-                                "user": data.email,
-                                "msg": "회원가입성공"
+                            connection.query(`insert into user_info(userEmail) values(?)`, [data.email], function(err, rows, fields){
+                                if(err) console.log(err);
+                                else {
+                                    res.json({
+                                        "user": data.email,
+                                        "msg": "회원가입성공"
+                                    });
+                                }
                             });
                         } else {
                             res.json({

@@ -26,7 +26,7 @@ const login = async function(req, res){
     var rememberId = data.rememberId;
 
     if(RUserEmail && RUserPassword) {
-        connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
+        await connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
             if(err){
                 console.log(err);
             }
@@ -46,9 +46,14 @@ const login = async function(req, res){
                         console.log("아이디 저장 체크!");
                         res.cookie('loginId', RUserEmail);
                     }
+
+                    connection.query(`INSERT INTO login_log(userEmail) VALUES (?)`, [DUserEmail], function(err, rows, fields){
+                        if(err) console.log(err);
+                    });
+
                     req.session.userEmail = DUserEmail;
-                    req.session.save(function(){
-                        res.json({
+                    req.session.save(async function(){
+                        await res.json({
                             "msg": 'success',
                             "user": req.session.userEmail
                         });
