@@ -1,11 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const mysql = require('mysql');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 const dbconfig = require('../../config/dbconfig');
 const dbOptions = dbconfig;
+const connection = mysql.createConnection(dbOptions);
+connection.query('USE ' + dbconfig.database);
+
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -22,7 +26,13 @@ const createcommunitypage = function(req, res){
         res.redirect('/login');
     }
     else{
-        res.render('createcommunity', {user: req.session.userEmail});
+        connection.query('select email_auth from user where userEmail = ?', [req.session.userEmail], function(err, rows, fields){
+            if(err) console.log(err);
+
+            let email_auth = rows[0].email_auth;
+
+            res.render('createcommunity', {user: req.session.userEmail, pass: email_auth});
+        });
     }
 };
 

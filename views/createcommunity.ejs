@@ -481,25 +481,17 @@
           });
         },
         create_btn : function () {
-          var data = {
-            title: $('#title').val(),
-            userEmail: $('#userEmail').val(),
-            filename: $('#filename').val(),
-            content: $('#content').val()
-          };
 
           var data_json = JSON.stringify(data);
     
           $.ajax({
-            url: 'http://localhost:8080/createComm',
-            type: 'POST',
+            url: 'http://localhost:8080/mypage',
+            type: 'GET',
             contentType:'application/json; charset=utf-8',
             data: data_json
           }).done(function(data){
-              if(data.msg == '글생성'){
-                  alert("글을 생성하였습니다");
-                  window.location.href = '/getcomm';
-              } else if(data.msg == '인증필요'){
+              let pass = '<%=pass%>';
+              if(pass == 0){
                 alert("이메일 인증이 필요합니다.");
                 window.location.href = '/mypage';
               }

@@ -24,7 +24,7 @@ const mypage = function(req, res){
     if(!Session){
         res.redirect('/login');
     }else {
-        connection.query(`select user.userName, user.userEmail, user.register_data, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
+        connection.query(`select user.userName, user.email_auth, user.userEmail, user.register_data, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
         [Session], function(err, rows, fields){
             if(err) console.log(err);
             let userEmail = rows[0].userEmail;
@@ -39,7 +39,7 @@ const mypage = function(req, res){
                 user:req.session.userEmail,
                 userEmail : userEmail,
                 userName : userName,
-                pass:email_auth,
+                pass: email_auth,
                 register_date: register_date,
                 nickname: nickname,
                 phoneNumber: phoneNumber,

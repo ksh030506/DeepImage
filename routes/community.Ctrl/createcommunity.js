@@ -32,30 +32,15 @@ const createcommunity = function(req, res){
     }
 
     if(title && content && writer){
-        connection.query('select email_auth from user where userEmail = ?', [writer], function(err, rows, fields){
-            if(err) console.log(err);
-            let email_auth = rows[0].email_auth;
-            if(email_auth == 1){
                 connection.query('insert into community(userEmail, title, content, Img) VALUES(?, ?, ?, ?)', [writer ,title, content, image], function(err, rows, fields){
                     if(err){
                         console.log(err);
                     }
                     else {
-                        res.json({
-                            "msg": "글생성"
-                        });
-                        //res.redirect('/getcomm');
+                        res.redirect('/getcomm');
                     }
-                });
-            }
-            else {
-                res.json({
-                    "msg": "인증필요"
-                });
-                //res.redirect('/mypage');
-            }
-        });
-    } else {
+                }); //res.redirect('/mypage');
+            } else {
         res.redirect('/create');
     }
 };
