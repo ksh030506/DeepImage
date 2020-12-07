@@ -19,7 +19,7 @@ app.use(session({
 
 const communitypage = function(req, res){
     if(!req.session.userEmail){
-        res.redirect('/login');
+        res.redirect('/loginpage');
     }
     else {
         res.redirect('/getcomm');
