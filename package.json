@@ -4,7 +4,8 @@
   "description": "",
   "main": "web.js",
   "scripts": {
-    "start": "nodemon web.js"
+    "start": "node web.js",
+    "dev": "nodemon web.js"
   },
   "author": "",
   "license": "ISC",
