@@ -24,11 +24,11 @@ const mypage = function(req, res){
     if(!Session){
         res.redirect('/login');
     }else {
-        connection.query(`select user.userName, user.email_auth, user.userEmail, user.register_data, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
+        connection.query(`select user.userName, user.email_auth, user.userEmail, DATE_FORMAT(user.register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
         [Session], function(err, rows, fields){
             if(err) console.log(err);
             let userEmail = rows[0].userEmail;
-            let register_date = rows[0].register_data;
+            let register_date = rows[0].comm_time;
             let userName = rows[0].userName;
             let nickname = rows[0].nickname;
             let phoneNumber = rows[0].phoneNumber;

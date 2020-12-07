@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <div class="col-xl-2 col-lg-2">
                   <div class="logo">
-                    <a href="/"><img src="/img/logo/logo.png" alt="" width="200px" height="200px" /></a>
+                    <a href="/"><img src="/img/logo/logo.png" alt="" /></a>
                   </div>
                 </div>
                 <div class="col-xl-10 col-lg-10">
@@ -64,10 +64,14 @@
                           <li><a href="/contact">Contact</a></li>
                           <% if(user) { 
                             var userArray = user.split('@');
+                            var user_1 = userArray[0];
                           %>
                         <li><a href="/mypage">MyPage</a>
                             <ul class="submenu">
                                 <li><li class="button-header"><a class="btn3"><%=userArray[0]%> 님</a></li></li>
+                                <%if(user_1 == 'llmm030506') { %>
+                                    <li><li class="button-header"><a class="btn3" href="/loginlog">로그인 로그 보기</a></li></li>
+                                <%}%>
                             </ul>
                         </li>
                         <li class="button-header margin-left "><a href="/logout" id="logout_btn" class="btn">로그아웃</a></li>
@@ -102,7 +106,7 @@
             <div class="row align-items-center justify-content-center">
               <div class="col-xl-8 col-lg-9 col-md-12">
                 <div class="hero__caption hero__caption3 text-center">
-                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Blog</h1>
+                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Login_Log</h1>
                 </div>
               </div>
             </div>
@@ -119,6 +123,12 @@
       </div>
       <!-- Slider Area End -->
       <!-- Hero Area End-->
+      <%
+        var count = 0;
+        for(var i=0; i<rows.length; i++) {
+        count++;
+        var data = rows[i];
+    %>
 
       <!--? Blog Area Start-->
       <section class="blog_area section-padding">
@@ -133,65 +143,26 @@
                       src=""+
                       alt=""
                     />
+                    
                     <input type="hidden" value="">
                     <div class="blog_item_date">
-                      <h3>사용자 정보</h3>
+                      <h3><%=count%></h3>
                     </div>
                   </div>
                   <div class="blog_details">
                     <div class="d-inline-block">
                       <h2 class="blog-head" style="color: #2d2d2d">
-                        <h3><%=userName%></h3>
+                        <h3>유저 : <%=data.UserEmail%></h3>
                       </h2>
                     </div>
                     <p>
-                      이메일 : <%=userEmail%>
+                      로그인 시각 : <%=data.login_date%>
                     </p>
-                    <p>
-                      생성 날짜 : <%=register_date%>
-                    </p>
-                    <%
-                    if(pass == 0) {
-                    %>
-                    <form action="/email" method="POST">
-                        <input type="text" name="auth_code" id="auth_code" style="width:200px; height:50px;" placeholder="인증번호를 입력하세요">
-                        <button class="aaa" name="email_btn" id="email_btn">인증번호 전송</button>
-                        <br/><br/>
-                        <button class="bbb" name="email_chk" id="email_chk">확인</button>
-                    </form>
-                      <%
-                    }
-                    %>
-                    <br/>
-                    <hr/>
-                    <br/>
-                    <form action="/updateuser" method="POST">
-                      <input type="text" placeholder="닉네임" name="nickname" value="<%=nickname%>"><br/>
-                      <input type="text" placeholder="전화번호" name="phone" value="<%=phoneNumber%>"><br/>
-                      <input type="text" placeholder="주소" name="address" value="<%=adress%>"><br/>
-                      <input type="text" placeholder="성별" name="gender" value="<%=gender%>"><br/>
-                      <button class="bbb" name="update_user" id="update_user">확인</button>
-                    </form>
-                    
                   </div>
                 </article>
               </div>
             </div>
-
-            <style>
-                .aaa{
-                    background-color:blueviolet;
-                    width: 130px;
-                    height: 50px;
-                }
-                .bbb{
-                    background-color:blueviolet;
-                    width: 200px;
-                    height: 50px;
-                }
-            </style>
-
-
+            <%}%>
             <div class="col-lg-4">
               <div class="blog_right_sidebar">
                 <aside class="single_sidebar_widget search_widget">
@@ -423,73 +394,5 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
-    <!-- <script>
-      var main = {
-        init : function () {
-            var _this = this;
-            $('#email_chk').on('click', function () {
-              _this.email_chk();
-          });
-        },
-        email_chk : function () {
-
-          //ar data = {
-           // userEmail: "<%=userEmail%>",
-           // auth_code: $('#auth_code').val()
-          //}
-
-          //var data_json = JSON.stringify(data);
-
-         $.ajax({
-            url: 'http://localhost:8080/email',
-            type: 'POST',
-            //contentType:'application/json; charset=utf-8',
-            //data: data_json
-          }).done(function(data){
-            if(data.msg == '값빔'){
-              alert("인증번호를 입력해주세요");
-              window.location.href = '/mypage';
-            }
-            else if(data.msg == '이메일인증성공'){
-              alert("인증 성공");
-              window.location.href = '/mypage';
-            }
-          }).fail(function(data){
-            alert("실패");
-            window.location.href = '/mypage';
-          });
-        }
-    };
-    main.init();
-    </script> -->
-    <script>
-      var main = {
-        init : function () {
-            var _this = this;
-            $('#logout_btn').on('click', function () {
-                _this.logout_btn();
-            });
-        },
-        logout_btn : function () {
-    
-          $.ajax({
-            url: '/logout',
-            type: 'GET',
-            contentType:'application/json; charset=utf-8',
-          }).done(function(data){
-              if(data.msg == '로그아웃완료'){
-                  alert("로그아웃 되었습니다.");
-                  window.location.href = '/';
-              }
-          }).fail(function(data){
-            alert(JSON.stringify(data));
-          });
-        }
-    };
-    main.init();
-    </script>
-
-
-
   </body>
 </html>
