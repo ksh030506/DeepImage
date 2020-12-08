@@ -1,8 +1,6 @@
+CREATE SCHEMA `Net` DEFAULT CHARACTER SET utf8 ;
 
-
-CREATE SCHEMA `NetTest` DEFAULT CHARACTER SET utf8 ;
-
-CREATE TABLE `NetTest`.`user` (
+CREATE TABLE `Net`.`user` (
   `userEmail` VARCHAR(100) NOT NULL,
   `userName` VARCHAR(45) NULL,
   `password` VARCHAR(500) NULL,
@@ -13,10 +11,10 @@ CREATE TABLE `NetTest`.`user` (
   `gender` VARCHAR(10) NULL,
   PRIMARY KEY (`userEmail`));
 
-ALTER TABLE NetTest.user
+ALTER TABLE Net.user
 ADD (email_auth boolean not null default 0);
 
-CREATE TABLE `NetTest`.`community` (
+CREATE TABLE `Net`.`community` (
   `commid` INT NOT NULL AUTO_INCREMENT,
   `userEmail` VARCHAR(100) NULL,
   `title` VARCHAR(45) NULL,
@@ -25,64 +23,64 @@ CREATE TABLE `NetTest`.`community` (
   `Img` VARCHAR(100) NULL,
   PRIMARY KEY (`commid`));
 
-ALTER TABLE `NetTest`.`community` 
+ALTER TABLE `Net`.`community` 
 ADD INDEX `UserFK_idx` (`userEmail` ASC) VISIBLE;
 ;
-ALTER TABLE `NetTest`.`community` 
+ALTER TABLE `Net`.`community` 
 ADD CONSTRAINT `UserFK`
   FOREIGN KEY (`userEmail`)
-  REFERENCES `NetTest`.`user` (`userEmail`)
+  REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 
-CREATE TABLE `NetTest`.`login_log` (
+CREATE TABLE `Net`.`login_log` (
   `idx` INT NOT NULL AUTO_INCREMENT,
   `userEmail` VARCHAR(100) NULL,
   `login_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`idx`));
 
 
-ALTER TABLE `NetTest`.`login_log` 
+ALTER TABLE `Net`.`login_log` 
 ADD INDEX `login_FK_idx` (`userEmail` ASC) VISIBLE;
 ;
-ALTER TABLE `NetTest`.`login_log` 
+ALTER TABLE `Net`.`login_log` 
 ADD CONSTRAINT `login_FK`
   FOREIGN KEY (`userEmail`)
-  REFERENCES `NetTest`.`user` (`userEmail`)
+  REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-CREATE TABLE `NetTest`.`user_image` (
+CREATE TABLE `Net`.`user_image` (
   `idx` INT NOT NULL AUTO_INCREMENT,
   `userEmail` VARCHAR(100) NULL,
   `image` VARCHAR(45) NULL,
   `image_time` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`idx`));
 
-ALTER TABLE `NetTest`.`user_image` 
+ALTER TABLE `Net`.`user_image` 
 ADD INDEX `image_FK_idx` (`userEmail` ASC) VISIBLE;
 ;
-ALTER TABLE `NetTest`.`user_image` 
+ALTER TABLE `Net`.`user_image` 
 ADD CONSTRAINT `image_FK`
   FOREIGN KEY (`userEmail`)
-  REFERENCES `NetTest`.`user` (`userEmail`)
+  REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 
-CREATE TABLE `NetTest`.`user_point` (
+CREATE TABLE `Net`.`user_point` (
   `idx` INT NOT NULL AUTO_INCREMENT,
   `userEmail` VARCHAR(100) NULL,
   `point` INT NULL,
   `ponit_time` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`idx`));
 
-ALTER TABLE `NetTest`.`user_point` 
+ALTER TABLE `Net`.`user_point` 
 ADD INDEX `point_FK_idx` (`userEmail` ASC) VISIBLE;
 ;
-ALTER TABLE `NetTest`.`user_point` 
+ALTER TABLE `Net`.`user_point` 
 ADD CONSTRAINT `point_FK`
   FOREIGN KEY (`userEmail`)
-  REFERENCES `NetTest`.`user` (`userEmail`)
+  REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 
