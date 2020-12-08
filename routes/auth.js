@@ -31,6 +31,7 @@ const email_send = require('./auth.Ctrl/email');
 const login = require('./auth.Ctrl/login');
 const sing = require('./auth.Ctrl/sing');
 const update_user = require('./auth.Ctrl/update_user');
+const userdelete = require('./auth.Ctrl/userdelete');
 
 app.get('/', indexpage);
 app.get('/loginpage', loginpage);
@@ -41,5 +42,6 @@ app.post('/email', email_send);
 app.post('/login', login);
 app.post('/sing', sing);
 app.post('/updateuser', update_user);
+app.post('/userdelete', userdelete);
 
 module.exports = app;
