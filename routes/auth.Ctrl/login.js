@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var session = require('express-session');
+var crypto = require('crypto');
 var MySQLStore = require('express-mysql-session')(session);
 var dbconfig = require('../../config/dbconfig');
 var dbOptions = dbconfig;
@@ -38,8 +39,9 @@ const login = async function(req, res){
             else {
                 var DUserEmail = rows[0]['userEmail'];
                 var DuserPassword = rows[0]['password'];
+                const key = crypto.pbkdf2Sync(RUserPassword, 'salt', 100000, 64, 'sha512').toString('hex');
     
-                if(DuserPassword == RUserPassword){
+                if(key == DuserPassword){
                     console.log("로그인 성공");
                     
                     if(rememberId === "checked"){
@@ -58,8 +60,7 @@ const login = async function(req, res){
                             "user": req.session.userEmail
                         });
                     });
-                }
-                else {
+                } else {
                     res.json({
                         "msg": '비밀번호틀림'
                     });
