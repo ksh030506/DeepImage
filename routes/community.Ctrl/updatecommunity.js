@@ -23,11 +23,13 @@ app.use(session({
 
 const updatecommunity = function(req, res){
     let data = req.body;
-    let commid = data.id;
+    let commid = data.commid;
     let UserSession = req.session.userEmail;
     let writer = data.writer;
     let title = data.title;
     let content = data.content;
+
+    console.log(commid, UserSession, writer, title, content);
     
     if(UserSession != writer){
         res.json({
@@ -37,13 +39,14 @@ const updatecommunity = function(req, res){
         // res.redirect('/getcomm');
     }
     else {
-        connection.query('update community set title = ?, content = ? where commid = ?', [title, content, commid], function(err, rows, fields){
+        connection.query(`update community set title = ?, content = ? where commid = ?`, [title, content, commid], function(err, rows, fields){
             if(err){
                 console.log(err);
             } else {
-                res.json({
-                    "msg": "수정성공"
-                });
+                // res.json({
+                //     "msg": "수정성공"
+                // });
+                res.send('<script type="text/javascript">alert("수정 성공"); window.location="/getcomm"; </script>');
                 // res.redirect('/getcomm');
             }
         });

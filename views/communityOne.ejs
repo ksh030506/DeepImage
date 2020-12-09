@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>blog_details</title>
+    <title>communityOne</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
@@ -102,7 +102,7 @@
               <div class="col-xl-8 col-lg-9 col-md-12">
                 <div class="hero__caption hero__caption3 text-center">
                   <h1 data-animation="fadeInLeft" data-delay=".6s ">
-                    Blog Details
+                    communityOne
                   </h1>
                 </div>
               </div>
@@ -148,7 +148,11 @@
                   <input name="writer" id="writer" style="text-align:center; width:300px; height:23px;" value="<%=data.userEmail%>"></input><br/><br/>
                   <h2>내용</h2>
                   <textarea class="excert" id="content" name="content" cols="80" rows="10"><%=data.content%></textarea><br/><br/>
-                  <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="update_btn">글 수정</button>
+
+                  <form action="/commupdate" method="POST">
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="update_btn">글 수정</button>
+                  </form>
+                  
               </div>
             </form>
             <form action="/deletecomm" method="post">
@@ -156,7 +160,11 @@
               <input type="hidden" name="writer" value="<%=data.userEmail%>"/>
               <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="delete_btn">글 삭제</button>
             </form>
-            <button href="/getcomm" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">목록</button>
+            <form action="/getcomm" method="GET">
+              <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">목록</button>
+            </form>
+
+            
           </div>
           <div class="col-lg-4">
             <div class="blog_right_sidebar">

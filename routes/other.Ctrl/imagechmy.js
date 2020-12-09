@@ -30,7 +30,7 @@ function base64_decode(base64str, file) {
 
 
 const imageChPage = function(req, res){
-    connection.query(`select * from user_image where userEmail = ?`, ['llmm030506@gmail.com'], function(err, rows, fields){
+    connection.query(`select * from user_image where userEmail = ?`, [req.session.userEmail], function(err, rows, fields){
         if(err) console.log(err);
 
         let image;
