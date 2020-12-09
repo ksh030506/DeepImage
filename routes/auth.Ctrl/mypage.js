@@ -35,7 +35,7 @@ const mypage = function(req, res){
             let adress = rows[0].address;
             let gender = rows[0].gender;
             let email_auth = rows[0].email_auth;
-            console.log(userEmail, register_date, userName, nickname, phoneNumber, adress, gender, email_auth);
+
             res.render('mypage', {
                 user:req.session.userEmail,
                 userEmail : userEmail,

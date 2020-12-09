@@ -30,7 +30,7 @@
         <div class="preloader-inner position-relative">
           <div class="preloader-circle"></div>
           <div class="preloader-img pere-text">
-            <img src="/img/logo/loder.png" alt=""/>
+            <img src="/img/logo/loder.png" alt="" />
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <div class="col-xl-2 col-lg-2">
                   <div class="logo">
-                    <a href="/"><img src="/img/logo/logo.png" alt="" width="200px" height="200px"/></a>
+                    <a href="/"><img src="/img/logo/logo.png" alt="" width="200px" height="200px" /></a>
                   </div>
                 </div>
                 <div class="col-xl-10 col-lg-10">
@@ -64,14 +64,10 @@
                           <li><a href="/contact">Contact</a></li>
                           <% if(user) { 
                             var userArray = user.split('@');
-                            var user_1 = userArray[0];
                           %>
                         <li><a href="/mypage">MyPage</a>
                             <ul class="submenu">
                                 <li><li class="button-header"><a class="btn3"><%=userArray[0]%> 님</a></li></li>
-                                <%if(user_1 == 'llmm030506') { %>
-                                    <li><li class="button-header"><a class="btn3" href="/loginlog">로그인 로그 보기</a></li></li>
-                                <%}%>
                             </ul>
                         </li>
                         <li class="button-header margin-left "><a href="/logout" id="logout_btn" class="btn">로그아웃</a></li>
@@ -106,7 +102,7 @@
             <div class="row align-items-center justify-content-center">
               <div class="col-xl-8 col-lg-9 col-md-12">
                 <div class="hero__caption hero__caption3 text-center">
-                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Login_Log</h1>
+                  <h1 data-animation="fadeInLeft" data-delay=".6s ">Blog</h1>
                 </div>
               </div>
             </div>
@@ -124,55 +120,6 @@
       <!-- Slider Area End -->
       <!-- Hero Area End-->
 
-
-
-     <!--? Blog Area Start-->
-     <section class="blog_area section-padding">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mb-5 mb-lg-0">
-            <div class="blog_left_sidebar">
-              <article class="blog_item">
-                <div class="blog_item_img">
-                  <img
-                    class="card-img rounded-0"
-                    src=""+
-                    alt=""
-                  />
-                  
-                  <input type="hidden" value="">
-                  <div class="blog_item_date">
-                    <h3>총계</h3>
-                  </div>
-                </div>
-
-                
-                <div class="blog_details">
-                  <div class="d-inline-block">
-                    <h2 class="blog-head" style="color: #2d2d2d">
-                      <h3>유저 : </h3>
-                    </h2>
-                  </div>
-                  <p>
-                    횟수 : 
-                  </p>
-                </div>
-
-
-              </article>
-            </div>
-          </div>
-
-
-
-
-      <%
-        var count = 0;
-        for(var i=0; i<rows.length; i++) {
-        count++;
-        var data = rows[i];
-    %>
-
       <!--? Blog Area Start-->
       <section class="blog_area section-padding">
         <div class="container">
@@ -186,26 +133,39 @@
                       src=""+
                       alt=""
                     />
-                    
                     <input type="hidden" value="">
                     <div class="blog_item_date">
-                      <h3><%=count%></h3>
+                      <h3>변환 사진</h3>
                     </div>
                   </div>
-                  <div class="blog_details">
-                    <div class="d-inline-block">
-                      <h2 class="blog-head" style="color: #2d2d2d">
-                        <h3>유저 : <%=data.UserEmail%></h3>
-                      </h2>
-                    </div>
-                    <p>
-                      로그인 시각 : <%=data.login_date%>
-                    </p>
-                  </div>
+
+
+                  <%
+                  for(var i=0; i<image_list.length; i++) {
+                    var data = image_list[i];
+                  %>
+                    <div class="blog_details">
+                        <img class="img-fluid" src="<%=data%>" alt="이미지 없음"/>
+                      </div>
+                <%}%>
                 </article>
               </div>
             </div>
-            <%}%>
+
+            <style>
+                .aaa{
+                    background-color:blueviolet;
+                    width: 130px;
+                    height: 50px;
+                }
+                .bbb{
+                    background-color:blueviolet;
+                    width: 200px;
+                    height: 50px;
+                }
+            </style>
+
+
             <div class="col-lg-4">
               <div class="blog_right_sidebar">
                 <aside class="single_sidebar_widget search_widget">
@@ -410,5 +370,34 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src="/js/plugins.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+      var main = {
+        init : function () {
+            var _this = this;
+            $('#logout_btn').on('click', function () {
+                _this.logout_btn();
+            });
+        },
+        logout_btn : function () {
+    
+          $.ajax({
+            url: '/logout',
+            type: 'GET',
+            contentType:'application/json; charset=utf-8',
+          }).done(function(data){
+              if(data.msg == '로그아웃완료'){
+                  alert("로그아웃 되었습니다.");
+                  window.location.href = '/';
+              }
+          }).fail(function(data){
+            alert(JSON.stringify(data));
+          });
+        }
+    };
+    main.init();
+    </script>
+
+
+
   </body>
 </html>

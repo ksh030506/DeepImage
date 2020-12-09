@@ -20,12 +20,19 @@ app.use(session({
 }));
 
 const loginLog_Page = function(req, res){
-    connection.query(`SELECT UserEmail, DATE_FORMAT(login_date, '%Y-%m-%d %H:%i:%s') AS login_date FROM Net.login_log`, function(err, rows, fields){
+    connection.query(`SELECT UserEmail, DATE_FORMAT(login_date, '%Y-%m-%d %H:%i:%s') AS login_date FROM login_log`, function(err, rows, fields){
         if(err) console.log(err);
 
-        res.render('loginLog', {user:req.session.userEmail, rows: rows});
-    });
-    
-};
+        connection.query(`select UserEmail, COUNT(UserEmail) as count from login_log group by UserEmail`, function(err, rows2, fields){
+            if(err) console.log(err);
 
+            console.log(rows);
+            
+
+            res.render('loginLog', {user:req.session.userEmail, rows: rows, rows2: rows2});
+        });
+
+        
+    });
+};
 module.exports = loginLog_Page;
