@@ -31,18 +31,13 @@ const deletecommunity = function(req, res){
         res.json({
             "msg": "삭제권한없음"
         });
-        // console.log("이메일 틀림");
-        // res.redirect('/getcomm');
     } else {
         connection.query('delete from community where commid = ?', [commid], function(err, rows, fields){
             if(err){
                 console.log(err);
             }
             else {
-                res.json({
-                    "msg": "삭제성공"
-                });
-                // res.redirect('/getcomm');
+                res.send('<script type="text/javascript">alert("삭제 성공"); window.location="/getcomm"; </script>');
             }
         });
     }

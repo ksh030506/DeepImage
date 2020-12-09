@@ -452,25 +452,6 @@
           }).fail(function(data){
             alert(JSON.stringify(data));
           });
-        },
-        create_btn : function () {
-
-          var data_json = JSON.stringify(data);
-    
-          $.ajax({
-            url: 'http://localhost:8080/mypage',
-            type: 'GET',
-            contentType:'application/json; charset=utf-8',
-            data: data_json
-          }).done(function(data){
-              let pass = '<%=pass%>';
-              if(pass == 0){
-                alert("이메일 인증이 필요합니다.");
-                window.location.href = '/mypage';
-              }
-          }).fail(function(data){
-            alert(JSON.stringify(data));
-          });
         }
     };
     main.init();

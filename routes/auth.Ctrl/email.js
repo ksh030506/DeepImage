@@ -50,7 +50,7 @@ const email_send = async (req, res) => {
 
     // if(auth_code){
         if(auth_code == authNum){
-            connection.query(`update Net.user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
+            connection.query(`update user set email_auth = 1 where userEmail = ?;`, [Session], function(err, rows, fields){
                 if(err) console.log(err);
                 res.redirect('/mypage');
                 // res.json({

@@ -31,7 +31,7 @@ ADD CONSTRAINT `UserFK`
   FOREIGN KEY (`userEmail`)
   REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
 CREATE TABLE `Net`.`login_log` (
   `idx` INT NOT NULL AUTO_INCREMENT,
@@ -47,8 +47,8 @@ ALTER TABLE `Net`.`login_log`
 ADD CONSTRAINT `login_FK`
   FOREIGN KEY (`userEmail`)
   REFERENCES `Net`.`user` (`userEmail`)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 CREATE TABLE `Net`.`user_image` (
   `idx` INT NOT NULL AUTO_INCREMENT,
@@ -65,7 +65,7 @@ ADD CONSTRAINT `image_FK`
   FOREIGN KEY (`userEmail`)
   REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
 CREATE TABLE `Net`.`user_point` (
   `idx` INT NOT NULL AUTO_INCREMENT,
@@ -82,5 +82,5 @@ ADD CONSTRAINT `point_FK`
   FOREIGN KEY (`userEmail`)
   REFERENCES `Net`.`user` (`userEmail`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
