@@ -57,6 +57,7 @@ const email_send = async (req, res) => {
                 //     "msg": "이메일인증성공"
                 // });
             });
+            
         } else {
             const mailOptions = {
                 from: process.env.email_auth,

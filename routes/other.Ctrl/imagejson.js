@@ -21,11 +21,14 @@ app.use(session({
     saveUninitialized: false
 }));
 
-const getcommunity = function(req, res){
-    connection.query(`SELECT commid, userEmail, title, content, DATE_FORMAT(comm_time, '%Y-%m-%d %H:%i:%s') AS comm_time, Img FROM community order by commid DESC`, function(err, rows, fields){
+
+const imagejson = function(req, res){
+    connection.query(`select * from user_image`, function(err, rows, fields){
         if(err) console.log(err);
-        res.render('community', {title: ' 게시판 리스트', rows: rows, user:req.session.userEmail});
+        res.json({
+            "rows": rows
+        });
     });
 };
 
-module.exports = getcommunity;
+module.exports = imagejson;

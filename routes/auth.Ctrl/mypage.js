@@ -24,17 +24,18 @@ const mypage = function(req, res){
     if(!Session){
         res.redirect('/login');
     }else {
-        connection.query(`select user.userName, user.email_auth, user.userEmail, DATE_FORMAT(user.register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, user_info.nickname, user_info.phoneNumber, user_info.adress, user_info.gender from user, user_info where user.userEmail = user_info.userEmail and user.userEmail = ?`,
+        connection.query(`SELECT userEmail, DATE_FORMAT(register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, userName, nickname, phone, address, gender, email_auth from user where userEmail = ?`,
         [Session], function(err, rows, fields){
             if(err) console.log(err);
             let userEmail = rows[0].userEmail;
             let register_date = rows[0].comm_time;
             let userName = rows[0].userName;
             let nickname = rows[0].nickname;
-            let phoneNumber = rows[0].phoneNumber;
-            let adress = rows[0].adress;
+            let phoneNumber = rows[0].phone;
+            let adress = rows[0].address;
             let gender = rows[0].gender;
             let email_auth = rows[0].email_auth;
+            console.log(userEmail, register_date, userName, nickname, phoneNumber, adress, gender, email_auth);
             res.render('mypage', {
                 user:req.session.userEmail,
                 userEmail : userEmail,

@@ -27,10 +27,13 @@ const imageChagePage = require('./other.Ctrl/imageChagepage');
 const helpPage = require('./other.Ctrl/helpPage');
 const contactPage = require('./other.Ctrl/contactPage');
 const imageCh = require('./other.Ctrl/imageCh');
+const imagejson = require('./other.Ctrl/imagejson');
 
 app.get('/imageChage', imageChagePage);
 app.get('/help', helpPage);
 app.get('/contact', contactPage);
 app.post('/imagech', imageCh);
+app.get('/imagejson', imagejson);
+
 
 module.exports = app;

@@ -6,6 +6,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var dbconfig = require('../../config/dbconfig');
 const { get } = require('../auth');
+const { user } = require('../../config/dbconfig');
 var dbOptions = dbconfig;
 
 app.use(session({
@@ -27,8 +28,8 @@ const update_user = function(req, res){
     let phone = data.phone;
     let address = data.address;
     let gender = data.gender;
-    let param = [userEmail, nickname, phone, address, gender, userEmail];
-        connection.query(`update user_info set userEmail = ?, nickname = ?, phoneNumber = ?, adress = ?, gender = ? where userEmail = ?`, param, function(err, rows, fields){
+    let param = [nickname, phone, address, gender, userEmail];
+        connection.query(`update user set nickname = ?, phone = ?, address = ?, gender = ? where userEmail = ?`, param, function(err, rows, fields){
             if(!err){
                 res.redirect('/');
             } else { 

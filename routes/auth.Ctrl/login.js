@@ -52,13 +52,13 @@ const login = async function(req, res){
                     connection.query(`INSERT INTO login_log(userEmail) VALUES (?)`, [DUserEmail], function(err, rows, fields){
                         if(err) console.log(err);
                     });
+                    
 
                     req.session.userEmail = DUserEmail;
                     req.session.save(async function(){
-                        await res.json({
-                            "msg": 'success',
+                        await res.send('<script type="text/javascript">alert("로그인 성공"); window.location="/"; </script>').json({
                             "user": req.session.userEmail
-                        });
+                        }); 
                     });
                 } else {
                     res.json({
