@@ -32,6 +32,7 @@ const deletecommunity = require('./community.Ctrl/deletecommunity');
 const updatecommunity = require('./community.Ctrl/updatecommunity');
 const getcommunityById = require('./community.Ctrl/getcommunityById');
 const communitysearch = require('./community.Ctrl/communitysearch');
+const searchname = require('./community.Ctrl/searchname');
 
 app.get('/community', community);
 app.get('/blog_details', blog_detailspage);
@@ -42,5 +43,6 @@ app.post('/deletecomm', deletecommunity);
 app.post('/commupdate', updatecommunity);
 app.get('/getcomm/:id', getcommunityById);
 app.post('/search', communitysearch);
+app.post('/searchname', searchname);
 
 module.exports = app;

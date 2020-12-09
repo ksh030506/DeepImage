@@ -182,7 +182,25 @@
                         />
                       </div>
                     </div>
-                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="search_btn" type="submit">검색</button><br/>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="search_btn" type="submit">제목 검색</button><br/>
+                  </form>
+                  <br/>
+                  <br/>
+                  <form action="/searchname" method="POST">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          name="search"
+                          id="search"
+                          class="form-control"
+                          placeholder="Search Keyword"
+                          onfocus="this.placeholder = ''"
+                          onblur="this.placeholder = 'Search Keyword'"
+                        />
+                      </div>
+                    </div>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="search_btn" type="submit">이름 검색</button><br/>
                   </form>
                   <form action="/getcomm" method="GET">
                     <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>

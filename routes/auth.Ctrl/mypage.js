@@ -24,7 +24,7 @@ const mypage = function(req, res){
     if(!Session){
         res.redirect('/login');
     }else {
-        connection.query(`SELECT userEmail, DATE_FORMAT(register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, userName, nickname, phone, address, gender, email_auth from user where userEmail = ?`,
+        connection.query(`SELECT user.userEmail, DATE_FORMAT(user.register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, user.userName, user.nickname, user.phone, user.address, user.gender, user.email_auth, SUM(user_point.point) as pointsum from user, user_point where user.userEmail = user_point.userEmail and user.userEmail = ? group by userEmail`,
         [Session], function(err, rows, fields){
             if(err) console.log(err);
             let userEmail = rows[0].userEmail;
@@ -35,6 +35,7 @@ const mypage = function(req, res){
             let adress = rows[0].address;
             let gender = rows[0].gender;
             let email_auth = rows[0].email_auth;
+            let pointsum = rows[0].pointsum;
 
             res.render('mypage', {
                 user:req.session.userEmail,
@@ -45,7 +46,8 @@ const mypage = function(req, res){
                 nickname: nickname,
                 phoneNumber: phoneNumber,
                 adress: adress,
-                gender: gender
+                gender: gender,
+                pointsum: pointsum
             });
         });
     }

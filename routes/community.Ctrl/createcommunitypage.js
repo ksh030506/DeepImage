@@ -33,7 +33,6 @@ const createcommunitypage = function(req, res){
             if(email_auth == 0){
                 res.send('<script type="text/javascript">alert("이메일 인증을 해주세요"); window.location="/mypage"; </script>');
             } else {
-                console.log("asdf");
                 res.render('createcommunity', {user: req.session.userEmail});
             }     
         });

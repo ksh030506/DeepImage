@@ -37,7 +37,11 @@ const createcommunity = function(req, res){
                         console.log(err);
                     }
                     else {
-                        res.redirect('/getcomm');
+                        connection.query(`insert into user_point(userEmail, point) VALUES (?, ?)`, [writer, 10], function(err, rows, fields){
+                            if(err) console.log(err);
+
+                            res.redirect('/getcomm');
+                        });
                     }
                 }); //res.redirect('/mypage');
             } else {
