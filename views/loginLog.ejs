@@ -215,10 +215,34 @@
                 </article>
               </div>
             </div>
-            <%}%>
+            <% } %>
             <div class="col-lg-4">
               <div class="blog_right_sidebar">
                 <aside class="single_sidebar_widget search_widget">
+                  <form action="/pointsearch" method="POST">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          name="search"
+                          id="search"
+                          class="form-control"
+                          placeholder="Search Keyword"
+                          onfocus="this.placeholder = ''"
+                          onblur="this.placeholder = 'Search Keyword'"
+                        />
+                      </div>
+                    </div>
+                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" id="search_btn" type="submit">포인트 검색 (이름)</button><br/><br/>
+                  </form>
+                  <br/>
+                  <br/>
+                  <% if(point) { %>
+
+                    <p><%=point%></p>
+
+                  <% } %>
+                  <br/>
                   <form action="/" method="GET">
                     <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn">홈으로 가기</button>
                   </form>

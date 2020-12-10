@@ -22,7 +22,7 @@ app.use(session({
 const loginLog_Page = function(req, res){
     connection.query(`select user.userEmail, user.userName, user.phone, user.email_auth, DATE_FORMAT(login_log.login_date, '%Y-%m-%d %H:%i:%s') AS login_date from user, login_log where user.userEmail = login_log.userEmail`, function(err, rows, fields){
         if(err) console.log(err);
-        res.render('loginLog', {user:req.session.userEmail, rows: rows});
+        res.render('loginLog', {user:req.session.userEmail, rows: rows, point: ""});
     });
 };
 module.exports = loginLog_Page;

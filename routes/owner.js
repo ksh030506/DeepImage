@@ -24,7 +24,9 @@ app.use(session({
 }));
 
 const LoginLogPage = require('./owner.Ctrl/login_logPage');
+const pointsearch = require('./owner.Ctrl/pointsearch');
 
 app.get('/loginlog', LoginLogPage);
+app.post('/pointsearch', pointsearch);
 
 module.exports = app;
