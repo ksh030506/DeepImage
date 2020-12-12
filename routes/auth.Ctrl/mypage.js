@@ -38,8 +38,6 @@ const mypage = function(req, res){
             let email_auth = rows[0].email_auth;
             let pointsum = rows[0].pointsum;
 
-            console.log(userEmail, register_date, userName, nickname, phoneNumber, adress, gender, email_auth, pointsum);
-
             connection.query(`select level from lank  where lankcol between (select SUM(point) from user_point where userEmail = ?) and (select SUM(point) from user_point where userEmail = ?)`, [req.session.userEmail, req.session.userEmail], function(err, rows2, feilds){
                 if(err) console.log(err);
                 let lank = rows2[0].level;
