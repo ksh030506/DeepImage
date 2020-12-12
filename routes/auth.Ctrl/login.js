@@ -46,7 +46,9 @@ const login = async function(req, res){
                     
                     if(rememberId === "checked"){
                         console.log("아이디 저장 체크!");
-                        res.cookie('loginId', RUserEmail);
+                        res.cookie('loginId', RUserEmail, {
+                            maxAge: 60 * 60 * 24 //하루
+                        });
                     }
 
                     connection.query(`INSERT INTO login_log(userEmail) VALUES (?)`, [DUserEmail], function(err, rows, fields){
