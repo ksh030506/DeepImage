@@ -89,3 +89,14 @@ CREATE TABLE `Net`.`lank` (
   `level` VARCHAR(45) NULL,
   `lankcol` VARCHAR(45) NULL,
   PRIMARY KEY (`idx`));
+
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('마스터', '4');
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('플레티넘', '4');
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('골드', '3');
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('실버', '2');
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('보론즈', '1');
+INSERT INTO `Net`.`lank` (`level`, `lankcol`) VALUES ('아이언', '0');
+
+
+INSERT INTO `Net`.`user_point` (`userEmail`, `point`) VALUES ('llmm030506@gmail.com', '1');
+INSERT INTO `Net`.`user_point` (`userEmail`, `point`) VALUES ('llmm030506@gmail.com', '1');

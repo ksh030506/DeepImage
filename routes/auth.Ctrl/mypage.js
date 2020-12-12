@@ -27,6 +27,7 @@ const mypage = function(req, res){
         connection.query(`SELECT user.userEmail, DATE_FORMAT(user.register_data, '%Y-%m-%d %H:%i:%s') AS comm_time, user.userName, user.nickname, user.phone, user.address, user.gender, user.email_auth, SUM(user_point.point) as pointsum from user, user_point where user.userEmail = user_point.userEmail and user.userEmail = ? group by userEmail`,
         [Session], function(err, rows, fields){
             if(err) console.log(err);
+
             let userEmail = rows[0].userEmail;
             let register_date = rows[0].comm_time;
             let userName = rows[0].userName;
@@ -36,6 +37,8 @@ const mypage = function(req, res){
             let gender = rows[0].gender;
             let email_auth = rows[0].email_auth;
             let pointsum = rows[0].pointsum;
+
+            console.log(userEmail, register_date, userName, nickname, phoneNumber, adress, gender, email_auth, pointsum);
 
             connection.query(`select level from lank  where lankcol between (select SUM(point) from user_point where userEmail = ?) and (select SUM(point) from user_point where userEmail = ?)`, [req.session.userEmail, req.session.userEmail], function(err, rows2, feilds){
                 if(err) console.log(err);
