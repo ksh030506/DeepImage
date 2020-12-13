@@ -37,7 +37,7 @@ const createcommunity = function(req, res){
                         console.log(err);
                     }
                     else {
-                        connection.query(`insert into user_point(userEmail, point) VALUES (?, ?)`, [writer, 10], function(err, rows, fields){
+                        connection.query(`insert into user_point(userEmail, point) VALUES (?, ?)`, [writer, 1], function(err, rows, fields){
                             if(err) console.log(err);
 
                             res.redirect('/getcomm');

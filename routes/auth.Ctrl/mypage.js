@@ -40,21 +40,39 @@ const mypage = function(req, res){
 
             connection.query(`select level from lank  where lankcol between (select SUM(point) from user_point where userEmail = ?) and (select SUM(point) from user_point where userEmail = ?)`, [req.session.userEmail, req.session.userEmail], function(err, rows2, feilds){
                 if(err) console.log(err);
-                let lank = rows2[0].level;
 
-                res.render('mypage', {
-                    user:req.session.userEmail,
-                    userEmail : userEmail,
-                    userName : userName,
-                    pass: email_auth,
-                    register_date: register_date,
-                    nickname: nickname,
-                    phoneNumber: phoneNumber,
-                    adress: adress,
-                    gender: gender,
-                    pointsum: pointsum,
-                    lank: lank
-                });
+                if(rows2[0]){
+                    let lank = rows2[0].level;
+              
+                    res.render('mypage', {
+                        user:req.session.userEmail,
+                        userEmail : userEmail,
+                        userName : userName,
+                        pass: email_auth,
+                        register_date: register_date,
+                        nickname: nickname,
+                        phoneNumber: phoneNumber,
+                        adress: adress,
+                        gender: gender,
+                        pointsum: pointsum,
+                        lank: lank
+                    });
+                } else {
+                    res.render('mypage', {
+                        user:req.session.userEmail,
+                        userEmail : userEmail,
+                        userName : userName,
+                        pass: email_auth,
+                        register_date: register_date,
+                        nickname: nickname,
+                        phoneNumber: phoneNumber,
+                        adress: adress,
+                        gender: gender,
+                        pointsum: pointsum
+                    });
+                }
+
+                
             });
         });
     }

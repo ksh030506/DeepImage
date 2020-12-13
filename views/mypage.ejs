@@ -149,7 +149,9 @@
                     </p>
                     <p>
                       포인트 : <%=pointsum%><br/><br/>
-                      포인트 등급 : <%=lank%>
+                      <% if(lank) {%>
+                        포인트 등급 : <%=lank%>
+                      <%}%>
                     </p>
                     <p>
                       생성 날짜 : <%=register_date%>
