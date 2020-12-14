@@ -35,8 +35,9 @@ const imageChPage = function(req, res){
 
         let image;
         let image_list = [];
-        for(var i = 3; i < rows.length; i++){
+        for(var i = 0; i < rows.length; i++){
             image = rows[i].image;
+            
             base64_decode(image, './upload/chimage/copy'+ i +'.jpg');
             image_list.push('/chimage/copy'+ i +'.jpg');
         }

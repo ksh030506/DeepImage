@@ -58,6 +58,10 @@ CREATE TABLE `Net`.`user_image` (
   PRIMARY KEY (`idx`));
 
 ALTER TABLE `Net`.`user_image` 
+CHANGE COLUMN `image` `image` LONGTEXT NULL DEFAULT NULL ;
+
+
+ALTER TABLE `Net`.`user_image` 
 ADD INDEX `image_FK_idx` (`userEmail` ASC) VISIBLE;
 ;
 ALTER TABLE `Net`.`user_image` 
