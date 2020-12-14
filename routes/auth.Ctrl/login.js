@@ -28,6 +28,7 @@ const login = async function(req, res){
 
     if(RUserEmail && RUserPassword) {
         await connection.query(`select * from user where userEmail = ?`, RUserEmail, function(err, rows, fields){
+            //로그인을 위해 이메일 검색
             if(err){
                 console.log(err);
             }
